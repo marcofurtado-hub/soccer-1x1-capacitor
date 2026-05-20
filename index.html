@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#0a0a0f" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <link rel="manifest" href="/manifest.json" />
+  <title>Soccer 1x1</title>
+  <style>
+    /* === Soccer 1x1 HUD styles (ported from playable) === */
+    *{margin:0;padding:0;box-sizing:border-box;}
+    html,body{width:100%;height:100%;overflow:hidden;background:#0a0a0a;font-family:'Arial Black',Impact,sans-serif;color:#fff;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent;}
+    canvas#game-canvas,#hud{
+      position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+      width:min(100vw, calc(100vh * 9 / 16));
+      height:min(100vh, calc(100vw * 16 / 9));
+    }
+    canvas#game-canvas{display:block;touch-action:none;cursor:crosshair;background:#2e6a26;}
+    @media (hover:none){canvas#game-canvas{cursor:default;}}
+    #hud{pointer-events:none;z-index:10;}
+
+    #battle-bar{
+      position:absolute;top:14px;left:14px;right:14px;height:42px;
+      background:#0c0c0c;border-radius:21px;border:2px solid rgba(255,255,255,0.22);
+      overflow:visible;pointer-events:none;
+      box-shadow:0 4px 14px rgba(0,0,0,0.55),inset 0 1px 0 rgba(255,255,255,0.06);
+    }
+    #battle-bar .bb-track{position:absolute;inset:3px;border-radius:18px;background:#000;overflow:hidden;}
+    #battle-bar .bb-fill{position:absolute;top:0;bottom:0;transition:width 0.45s cubic-bezier(0.25,0.8,0.25,1),filter 0.18s linear;}
+    #battle-bar .bb-fill.left{left:0;width:50%;background:linear-gradient(90deg,#1a5acc 0%,#3a7eff 60%,#5fb0ff 100%);}
+    #battle-bar .bb-fill.right{right:0;width:50%;background:linear-gradient(270deg,#cc1a1a 0%,#ff3a3a 60%,#ff7a7a 100%);}
+    #battle-bar .bb-fill.flash{filter:brightness(1.8) saturate(1.5);}
+    #battle-bar .bb-side-label{position:absolute;top:50%;transform:translateY(-50%);font-size:10px;letter-spacing:2.5px;font-weight:900;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,0.85);z-index:3;opacity:0.9;}
+    #battle-bar .bb-side-label.left{left:14px;}
+    #battle-bar .bb-side-label.right{right:14px;}
+    #battle-bar .bb-score{position:absolute;top:50%;transform:translateY(-50%);font-family:Impact,'Arial Black',sans-serif;font-size:26px;font-weight:900;color:#fff;line-height:1;text-shadow:0 2px 4px rgba(0,0,0,0.85),0 0 12px rgba(0,0,0,0.6);z-index:3;min-width:24px;text-align:center;}
+    #battle-bar .bb-score.left-num{left:54px;}
+    #battle-bar .bb-score.right-num{right:54px;}
+    #battle-bar .bb-score.pop{animation:scorePop 0.55s cubic-bezier(0.34,1.56,0.64,1);}
+    @keyframes scorePop{0%{transform:translateY(-50%) scale(1);}35%{transform:translateY(-50%) scale(1.55);text-shadow:0 0 24px rgba(255,255,255,0.9),0 2px 4px rgba(0,0,0,0.85);}100%{transform:translateY(-50%) scale(1);}}
+    #battle-bar .bb-icon{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:42px;height:42px;display:flex;align-items:center;justify-content:center;font-size:24px;background:radial-gradient(circle,#fff 30%,#bbb 100%);border:3px solid #0a0a0a;border-radius:50%;box-shadow:0 0 14px rgba(255,255,255,0.6),0 2px 6px rgba(0,0,0,0.55);z-index:5;transition:left 0.45s cubic-bezier(0.25,0.8,0.25,1);}
+
+    #title{position:absolute;top:60px;left:50%;transform:translateX(-50%);font-size:11px;letter-spacing:3px;color:#ffefd9;text-shadow:0 2px 0 #000;background:rgba(0,0,0,0.55);padding:4px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.14);white-space:nowrap;}
+
+    #banner{position:absolute;left:0;right:0;top:38%;text-align:center;font-size:54px;font-weight:900;letter-spacing:3px;color:#fff;text-shadow:0 4px 0 #000,0 0 14px rgba(255,255,255,0.4);opacity:0;pointer-events:none;}
+    #banner.show{animation:bannerIn 1.4s ease-out forwards;}
+    #banner.danger{color:#ff3a2c;text-shadow:0 4px 0 #4a0000,0 0 18px rgba(255,58,44,0.6);}
+    #banner.success{color:#7be0d8;text-shadow:0 4px 0 #003a36,0 0 18px rgba(123,224,216,0.7);}
+    #banner.goal{color:#ffd23a;text-shadow:0 5px 0 #4a3000,0 0 22px rgba(255,210,58,0.85);font-size:78px;letter-spacing:8px;}
+    @keyframes bannerIn{0%{opacity:0;transform:translateY(-30px) scale(0.7);}20%{opacity:1;transform:translateY(0) scale(1.15);}30%{transform:scale(1);}80%{opacity:1;}100%{opacity:0;transform:scale(0.95);}}
+
+    #hint{position:absolute;bottom:42px;left:50%;transform:translateX(-50%);font-size:10px;letter-spacing:1.5px;color:rgba(255,255,255,0.78);pointer-events:none;text-align:center;background:rgba(0,0,0,0.55);padding:8px 14px;border-radius:14px;border:1px solid rgba(255,255,255,0.18);line-height:1.7;max-width:90%;}
+    #hint.hidden{opacity:0;transition:opacity 0.4s;}
+    #hint .key{display:inline-block;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:4px;padding:1px 6px;margin:0 2px;font-weight:900;}
+
+    #joystick{position:absolute;inset:0;pointer-events:none;}
+    #joystick-base{position:absolute;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,0.08) 0%,rgba(255,255,255,0.04) 70%,rgba(255,255,255,0) 100%);border:2px solid rgba(255,255,255,0.32);transform:translate(-50%,-50%);opacity:0;transition:opacity 0.15s;box-shadow:0 0 18px rgba(0,0,0,0.4);}
+    #joystick-base.active{opacity:1;}
+    #joystick-thumb{position:absolute;width:54px;height:54px;border-radius:50%;background:radial-gradient(circle,#5aa8ff 30%,#1a5acc 100%);border:2px solid #fff;transform:translate(-50%,-50%) scale(0.6);opacity:0;transition:opacity 0.15s,transform 0.15s;box-shadow:0 0 14px rgba(90,168,255,0.65),0 4px 8px rgba(0,0,0,0.5);}
+    #joystick-thumb.active{opacity:1;transform:translate(-50%,-50%) scale(1);}
+
+    #mobile-hints{position:absolute;inset:0;pointer-events:none;display:none;}
+    #mobile-hints.visible{display:block;}
+    #mobile-hints.visible.hidden{opacity:0;transition:opacity 0.6s;}
+    #mobile-hints .zone{position:absolute;bottom:18%;width:96px;height:96px;border-radius:50%;border:2px dashed rgba(255,255,255,0.45);display:flex;align-items:center;justify-content:center;flex-direction:column;font-size:9px;letter-spacing:2px;color:rgba(255,255,255,0.85);text-align:center;line-height:1.3;background:rgba(0,0,0,0.25);animation:mobileHintPulse 1.6s ease-in-out infinite;}
+    #mobile-hints .zone .icon{font-size:24px;margin-bottom:2px;}
+    #mobile-hints .zone.left{left:8%;}
+    #mobile-hints .zone.right{right:8%;animation-delay:0.4s;}
+    @keyframes mobileHintPulse{0%,100%{transform:scale(1);opacity:0.85;}50%{transform:scale(1.08);opacity:1;}}
+
+    #sling{position:absolute;inset:0;pointer-events:none;}
+    #sling-line{position:absolute;height:4px;background:linear-gradient(90deg,rgba(255,255,255,0.2),rgba(255,255,255,0.95));border-radius:2px;transform-origin:0 50%;opacity:0;transition:opacity 0.1s;box-shadow:0 0 8px rgba(255,255,255,0.6);}
+    #sling-line.active{opacity:1;}
+    #sling-dot{position:absolute;width:26px;height:26px;border-radius:50%;background:radial-gradient(circle,#fff 30%,#aaa 100%);border:2px solid #0a0a0a;transform:translate(-50%,-50%) scale(0.6);opacity:0;transition:opacity 0.12s,transform 0.12s;box-shadow:0 0 16px rgba(255,255,255,0.7);}
+    #sling-dot.active{opacity:1;transform:translate(-50%,-50%) scale(1);}
+
+    #endcard{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:radial-gradient(ellipse at center,rgba(0,0,0,0.7) 0%,rgba(20,20,20,0.95) 100%);padding:24px;z-index:60;}
+    #endcard.show{display:flex;}
+    #endcard .hd{font-size:60px;letter-spacing:4px;color:#7be0d8;text-shadow:0 4px 0 #003a36,0 0 28px rgba(123,224,216,0.7);margin-bottom:14px;}
+    #endcard.loss .hd{color:#ff3030;text-shadow:0 4px 0 #4a0000,0 0 28px rgba(255,48,48,0.7);}
+    #endcard .sub{font-size:18px;color:#ffefd9;margin-bottom:36px;letter-spacing:1px;}
+    #endcard .replay{padding:20px 44px;background:linear-gradient(135deg,#7be0d8 0%,#3aa8a0 100%);color:#001a18;border:none;font-family:Impact,'Arial Black',sans-serif;font-size:24px;letter-spacing:2px;cursor:pointer;border-radius:14px;box-shadow:0 0 32px rgba(123,224,216,0.6),0 6px 0 #003a36;animation:ctapulse 1.2s ease-in-out infinite;}
+    #endcard.loss .replay{background:linear-gradient(135deg,#ff3030 0%,#a01010 100%);color:#fff;box-shadow:0 0 32px rgba(255,48,48,0.6),0 6px 0 #4a0000;}
+    @keyframes ctapulse{0%,100%{transform:scale(1);}50%{transform:scale(1.05);}}
+    .pe{pointer-events:auto;}
+
+    #ver-tag{position:absolute;bottom:6px;right:8px;z-index:50;font-family:'Courier New',monospace;font-size:10px;letter-spacing:1px;color:rgba(255,255,255,0.55);text-shadow:0 1px 2px rgba(0,0,0,0.8);pointer-events:none;}
+  </style>
+  <script type="module" crossorigin src="/assets/index-B9o8-v0C.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-BA0TRR_u.css">
+</head>
+<body>
+  <!-- Loading overlay — Capacitor template's pre-game loader (shown during OTA + init) -->
+  <div id="loader" class="loader">
+    <div class="loader__particles" id="particles"></div>
+    <div class="loader__content">
+      <div class="loader__logo">
+        <svg class="loader__icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M32 4L58 18V46L32 60L6 46V18L32 4Z" stroke="currentColor" stroke-width="2"/>
+          <path d="M32 4L58 18L32 32L6 18L32 4Z" fill="currentColor" opacity="0.15"/>
+          <path d="M32 32V60L6 46V18L32 32Z" fill="currentColor" opacity="0.08"/>
+          <circle cx="32" cy="28" r="6" fill="currentColor" opacity="0.6"/>
+        </svg>
+      </div>
+      <h1 class="loader__title" id="loader-title">Loading</h1>
+      <div class="loader__progress">
+        <div class="loader__bar">
+          <div class="loader__bar-fill" id="progress-bar"></div>
+        </div>
+        <p class="loader__status" id="loader-status">Initializing...</p>
+      </div>
+    </div>
+    <div class="loader__versions" id="loader-versions">
+      <span id="loader-shell-version"></span>
+      <span class="version-sep">·</span>
+      <span id="loader-content-version"></span>
+      <span class="version-sep">·</span>
+      <span id="loader-bundle-checksum"></span>
+    </div>
+  </div>
+
+  <!-- Error overlay — Capacitor template's fatal-error UI -->
+  <div id="error-screen" class="error" hidden>
+    <div class="error__content">
+      <div class="error__icon">
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="24" cy="24" r="20" stroke="currentColor" stroke-width="2"/>
+          <path d="M24 14V28" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="24" cy="34" r="1.5" fill="currentColor"/>
+        </svg>
+      </div>
+      <h2 class="error__title">Something went wrong</h2>
+      <p class="error__message" id="error-message">An unexpected error occurred.</p>
+      <button class="error__retry" id="error-retry">Try Again</button>
+    </div>
+    <div class="error__versions" id="error-versions">
+      <span id="error-shell-version"></span>
+      <span class="version-sep">·</span>
+      <span id="error-content-version"></span>
+    </div>
+  </div>
+
+  <!-- Soccer 1x1 game canvas + HUD -->
+  <canvas id="game-canvas"></canvas>
+  <div id="hud">
+    <div id="battle-bar">
+      <div class="bb-track">
+        <div class="bb-fill left"></div>
+        <div class="bb-fill right"></div>
+      </div>
+      <span class="bb-side-label left">VOCÊ</span>
+      <span class="bb-score left-num">0</span>
+      <span class="bb-score right-num">0</span>
+      <span class="bb-side-label right">RIVAL</span>
+      <div class="bb-icon">⚽</div>
+    </div>
+    <div id="title">1ª A 10 GOLS</div>
+    <div id="banner"></div>
+    <div id="hint">
+      <span class="hint-desktop">
+        <span class="key">W</span><span class="key">A</span><span class="key">S</span><span class="key">D</span> MOVER · <span class="key">SPACE</span> DASH (DRIBLA/ROUBA)<br>
+        PARE NA DIREÇÃO P/ CHUTAR · 1ª A 10 GOLS
+      </span>
+      <span class="hint-mobile" style="display:none">
+        ① SWIPE = SPRINT/DRIBLE/ROUBO (bola anda c/ vc)<br>
+        ② SEGURA + SWIPE = CHUTE (força = intensidade)<br>
+        ③ TAP NA ÁREA = ESCUDO
+      </span>
+    </div>
+    <div id="mobile-hints">
+      <div class="zone left"><div class="icon">👆</div>SWIPE = SPRINT C/ BOLA</div>
+      <div class="zone right"><div class="icon">⚽</div>SEGURA+SWIPE = CHUTE</div>
+    </div>
+    <div id="joystick">
+      <div id="joystick-base"></div>
+      <div id="joystick-thumb"></div>
+    </div>
+    <div id="sling">
+      <div id="sling-line"></div>
+      <div id="sling-dot"></div>
+    </div>
+    <div id="endcard">
+      <div class="hd">VICTORY!</div>
+      <div class="sub">RIVAL DERROTADO</div>
+      <!-- Hidden CTA preserved so soccer.ts's querySelector(".cta") doesn't crash. Phase 2: re-design endcard with main-menu / continue buttons. -->
+      <button class="cta" style="display:none" aria-hidden="true"></button>
+      <button class="replay pe">🔁 JOGAR DE NOVO</button>
+    </div>
+    <div id="ver-tag"></div>
+  </div>
+
+</body>
+</html>
