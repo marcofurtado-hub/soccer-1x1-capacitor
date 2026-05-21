@@ -58,8 +58,12 @@
     #joystick{position:absolute;inset:0;pointer-events:none;z-index:20;}
     #joystick-base{position:absolute;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,0.18) 0%,rgba(255,255,255,0.06) 70%,rgba(255,255,255,0) 100%);border:3px solid rgba(255,255,255,0.65);transform:translate(-50%,-50%);opacity:0;transition:opacity 0.12s;box-shadow:0 0 24px rgba(0,0,0,0.55),inset 0 0 18px rgba(255,255,255,0.08);}
     #joystick-base.active{opacity:1;}
-    #joystick-thumb{position:absolute;width:58px;height:58px;border-radius:50%;background:radial-gradient(circle,#7bbcff 30%,#1a5acc 100%);border:3px solid #fff;transform:translate(-50%,-50%) scale(0.6);opacity:0;transition:opacity 0.12s,transform 0.12s;box-shadow:0 0 18px rgba(123,188,255,0.85),0 4px 10px rgba(0,0,0,0.55);}
+    #joystick-thumb{position:absolute;width:58px;height:58px;border-radius:50%;background:radial-gradient(circle,#7bbcff 30%,#1a5acc 100%);border:3px solid #fff;transform:translate(-50%,-50%) scale(0.6);opacity:0;transition:opacity 0.12s,transform 0.12s,background 0.15s,box-shadow 0.15s;box-shadow:0 0 18px rgba(123,188,255,0.85),0 4px 10px rgba(0,0,0,0.55);}
     #joystick-thumb.active{opacity:1;transform:translate(-50%,-50%) scale(1);}
+    /* Phase 2 v20: SPRINT zone — thumb turns red + pulses */
+    #joystick-thumb.sprint{background:radial-gradient(circle,#ffa050 30%,#d63a00 100%);box-shadow:0 0 26px rgba(255,80,40,0.95),0 4px 10px rgba(0,0,0,0.6);animation:joystickSprintPulse 0.5s ease-in-out infinite;}
+    #joystick-base.sprint{border-color:rgba(255,150,80,0.75);box-shadow:0 0 30px rgba(255,80,40,0.45),inset 0 0 20px rgba(255,100,40,0.18);}
+    @keyframes joystickSprintPulse{0%,100%{transform:translate(-50%,-50%) scale(1);}50%{transform:translate(-50%,-50%) scale(1.12);}}
 
     #mobile-hints{position:absolute;inset:0;pointer-events:none;display:none;}
     #mobile-hints.visible{display:block;}
@@ -185,7 +189,7 @@
     #ads-overlay .ad-actions.show{display:block;}
 
   </style>
-  <script type="module" crossorigin src="./assets/index-CBvBLrSn.js"></script>
+  <script type="module" crossorigin src="./assets/index-CwaZBZUn.js"></script>
   <link rel="stylesheet" crossorigin href="./assets/index-BA0TRR_u.css">
 </head>
 <body>
@@ -258,13 +262,11 @@
     <div id="banner"></div>
     <div id="hint">
       <span class="hint-desktop">
-        <span class="key">W</span><span class="key">A</span><span class="key">S</span><span class="key">D</span> MOVER · <span class="key">SPACE</span> DASH (DRIBLA/ROUBA)<br>
-        PARE NA DIREÇÃO P/ CHUTAR
+        <span class="key">W</span><span class="key">A</span><span class="key">S</span><span class="key">D</span> MOVER · <span class="key">SPACE</span> SPRINT · SOLTA EM MOVIMENTO P/ CHUTAR
       </span>
       <span class="hint-mobile" style="display:none">
-        ① SWIPE = SPRINT/DRIBLE/ROUBO (bola anda c/ vc)<br>
-        ② SEGURA + SWIPE = CHUTE (força = intensidade)<br>
-        ③ TAP NA ÁREA = ESCUDO
+        ARRASTA O DEDO = ANDAR (puxa mais p/ SPRINT)<br>
+        FLICK RÁPIDO + SOLTA = CHUTE (força = velocidade)
       </span>
     </div>
     <div id="mobile-hints">
