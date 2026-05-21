@@ -76,19 +76,116 @@
     #sling-dot{position:absolute;width:26px;height:26px;border-radius:50%;background:radial-gradient(circle,#fff 30%,#aaa 100%);border:2px solid #0a0a0a;transform:translate(-50%,-50%) scale(0.6);opacity:0;transition:opacity 0.12s,transform 0.12s;box-shadow:0 0 16px rgba(255,255,255,0.7);}
     #sling-dot.active{opacity:1;transform:translate(-50%,-50%) scale(1);}
 
-    #endcard{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:radial-gradient(ellipse at center,rgba(0,0,0,0.7) 0%,rgba(20,20,20,0.95) 100%);padding:24px;z-index:60;}
-    #endcard.show{display:flex;}
-    #endcard .hd{font-size:60px;letter-spacing:4px;color:#7be0d8;text-shadow:0 4px 0 #003a36,0 0 28px rgba(123,224,216,0.7);margin-bottom:14px;}
-    #endcard.loss .hd{color:#ff3030;text-shadow:0 4px 0 #4a0000,0 0 28px rgba(255,48,48,0.7);}
-    #endcard .sub{font-size:18px;color:#ffefd9;margin-bottom:36px;letter-spacing:1px;}
-    #endcard .replay{padding:20px 44px;background:linear-gradient(135deg,#7be0d8 0%,#3aa8a0 100%);color:#001a18;border:none;font-family:Impact,'Arial Black',sans-serif;font-size:24px;letter-spacing:2px;cursor:pointer;border-radius:14px;box-shadow:0 0 32px rgba(123,224,216,0.6),0 6px 0 #003a36;animation:ctapulse 1.2s ease-in-out infinite;}
-    #endcard.loss .replay{background:linear-gradient(135deg,#ff3030 0%,#a01010 100%);color:#fff;box-shadow:0 0 32px rgba(255,48,48,0.6),0 6px 0 #4a0000;}
+    /* Phase 2: legacy endcard rules — the new scene-overlay class now owns positioning;
+       these are kept only as fallback shared keyframes referenced by .so-btn-primary. */
     @keyframes ctapulse{0%,100%{transform:scale(1);}50%{transform:scale(1.05);}}
     .pe{pointer-events:auto;}
 
     #ver-tag{position:absolute;bottom:6px;right:8px;z-index:50;font-family:'Courier New',monospace;font-size:10px;letter-spacing:1px;color:rgba(255,255,255,0.55);text-shadow:0 1px 2px rgba(0,0,0,0.8);pointer-events:none;}
+
+    /* === Phase 2 metagame HUD: match countdown timer === */
+    #match-timer{position:absolute;top:64px;left:50%;transform:translateX(-50%);font-family:Impact,'Arial Black',sans-serif;font-size:36px;font-weight:900;letter-spacing:3px;color:#fff;text-shadow:0 3px 0 #000,0 0 14px rgba(0,0,0,0.7);background:rgba(0,0,0,0.55);padding:4px 18px;border-radius:12px;border:1px solid rgba(255,255,255,0.18);pointer-events:none;line-height:1.1;}
+    #match-timer.danger{color:#ff3030;text-shadow:0 3px 0 #4a0000,0 0 18px rgba(255,48,48,0.85);animation:timerPulse 0.6s ease-in-out infinite;}
+    @keyframes timerPulse{0%,100%{transform:translateX(-50%) scale(1);}50%{transform:translateX(-50%) scale(1.12);}}
+
+    /* === Phase 2 metagame: overlay scenes (lobby / matchmaking / leaderboard / ads / endcard) === */
+    .scene-overlay{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(100vw,calc(100vh * 9 / 16));height:min(100vh,calc(100vw * 16 / 9));display:none;flex-direction:column;align-items:center;justify-content:center;padding:24px;z-index:70;background:radial-gradient(ellipse at center,rgba(8,18,12,0.78) 0%,rgba(4,4,8,0.96) 100%);pointer-events:auto;}
+    .scene-overlay.show{display:flex;animation:overlayFade 0.35s ease-out;}
+    @keyframes overlayFade{from{opacity:0;transform:translate(-50%,-50%) scale(0.96);}to{opacity:1;transform:translate(-50%,-50%) scale(1);}}
+
+    .so-btn{font-family:Impact,'Arial Black',sans-serif;border:none;cursor:pointer;border-radius:14px;letter-spacing:2px;transition:transform 0.18s ease,box-shadow 0.18s ease,filter 0.18s ease;}
+    .so-btn:active{transform:translateY(2px) scale(0.98);}
+    .so-btn:disabled{opacity:0.42;cursor:not-allowed;filter:grayscale(0.5);}
+    .so-btn-primary{padding:22px 48px;font-size:28px;background:linear-gradient(135deg,#ffd23a 0%,#ff8c1a 100%);color:#1a0a00;box-shadow:0 0 36px rgba(255,210,58,0.55),0 6px 0 #6a3a00;animation:ctapulse 1.4s ease-in-out infinite;}
+    .so-btn-primary:disabled{animation:none;box-shadow:0 6px 0 #444;}
+    .so-btn-primary.compact{padding:16px 30px;font-size:20px;}
+    .so-btn-secondary{padding:14px 22px;font-size:16px;background:rgba(255,255,255,0.08);color:#fff;border:1.5px solid rgba(255,255,255,0.28);}
+    .so-btn-secondary:hover{background:rgba(255,255,255,0.14);}
+    .so-btn-ghost{padding:8px 12px;font-size:14px;background:transparent;color:rgba(255,255,255,0.7);border:1px solid rgba(255,255,255,0.22);}
+
+    /* --- Lobby --- */
+    #lobby .lobby-header{display:flex;align-items:center;justify-content:space-between;width:100%;margin-bottom:14px;}
+    #lobby .lobby-title{font-size:18px;letter-spacing:4px;color:#ffcc33;text-shadow:0 2px 0 #4a3000,0 0 14px rgba(255,210,58,0.5);}
+    #lobby .lobby-profile{display:flex;align-items:center;gap:8px;font-size:14px;color:#e8e8f0;background:rgba(0,0,0,0.4);padding:6px 12px;border-radius:18px;border:1px solid rgba(255,255,255,0.12);}
+    #lobby .lobby-profile .profile-num{color:#ffd23a;font-family:Impact,'Arial Black',sans-serif;font-size:18px;}
+    #lobby .lobby-tickets{display:flex;flex-direction:column;align-items:center;margin:28px 0 12px;}
+    #lobby .lobby-tickets-row{display:flex;align-items:center;gap:14px;font-family:Impact,'Arial Black',sans-serif;}
+    #lobby .lobby-tickets-icon{font-size:62px;filter:drop-shadow(0 4px 8px rgba(0,0,0,0.6));}
+    #lobby .lobby-tickets-count{font-size:88px;color:#ffd23a;text-shadow:0 4px 0 #4a3000,0 0 24px rgba(255,210,58,0.55);line-height:1;}
+    #lobby .lobby-tickets-max{font-size:36px;color:rgba(255,255,255,0.55);line-height:1;}
+    #lobby .lobby-regen{margin-top:10px;font-size:13px;color:#7be0d8;letter-spacing:2px;}
+    #lobby .lobby-regen.full{color:rgba(255,255,255,0.45);}
+    #lobby .lobby-play-row{margin:18px 0 24px;}
+    #lobby .lobby-actions{display:flex;gap:14px;align-items:center;justify-content:center;width:100%;flex-wrap:wrap;}
+    #lobby .lobby-action{display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px 18px;background:rgba(255,255,255,0.06);border:1.5px solid rgba(255,255,255,0.18);border-radius:18px;cursor:pointer;transition:all 0.18s ease;color:#fff;min-width:96px;font-family:Impact,'Arial Black',sans-serif;letter-spacing:1.5px;}
+    #lobby .lobby-action:active{transform:translateY(2px) scale(0.97);}
+    #lobby .lobby-action:disabled{opacity:0.45;cursor:not-allowed;filter:grayscale(0.6);}
+    #lobby .lobby-action .icon{font-size:30px;line-height:1;}
+    #lobby .lobby-action .label{font-size:11px;color:rgba(255,255,255,0.85);}
+    #lobby .lobby-action .badge{font-size:11px;color:#7be0d8;letter-spacing:1px;margin-top:2px;}
+    #lobby .lobby-action.tv{border-color:rgba(123,224,216,0.45);}
+    #lobby .lobby-version{position:absolute;bottom:10px;font-size:9px;color:rgba(255,255,255,0.35);letter-spacing:2px;}
+
+    /* --- Matchmaking --- */
+    #matchmaking .mm-status{font-size:16px;letter-spacing:4px;color:#7be0d8;margin-bottom:18px;text-shadow:0 0 12px rgba(123,224,216,0.6);}
+    #matchmaking .mm-radar{width:90px;height:90px;border:3px solid rgba(123,224,216,0.5);border-radius:50%;position:relative;margin-bottom:24px;animation:radarPulse 1.4s ease-in-out infinite;}
+    #matchmaking .mm-radar::before,#matchmaking .mm-radar::after{content:'';position:absolute;inset:-12px;border:2px solid rgba(123,224,216,0.3);border-radius:50%;animation:radarRing 1.6s ease-out infinite;}
+    #matchmaking .mm-radar::after{animation-delay:0.8s;}
+    @keyframes radarPulse{0%,100%{transform:scale(1);box-shadow:0 0 24px rgba(123,224,216,0.5);}50%{transform:scale(1.1);box-shadow:0 0 36px rgba(123,224,216,0.85);}}
+    @keyframes radarRing{0%{opacity:0.6;transform:scale(0.8);}100%{opacity:0;transform:scale(1.8);}}
+    #matchmaking .mm-vs{display:flex;align-items:center;gap:20px;opacity:0;transition:opacity 0.45s ease;}
+    #matchmaking .mm-vs.show{opacity:1;}
+    #matchmaking .mm-fighter{display:flex;flex-direction:column;align-items:center;gap:8px;min-width:96px;}
+    #matchmaking .mm-fighter .flag{font-size:48px;line-height:1;}
+    #matchmaking .mm-fighter .name{font-family:Impact,'Arial Black',sans-serif;font-size:16px;letter-spacing:2px;color:#fff;text-shadow:0 2px 0 #000;text-align:center;max-width:120px;word-break:break-word;}
+    #matchmaking .mm-fighter.player .name{color:#5fb0ff;}
+    #matchmaking .mm-fighter.rival .name{color:#ff7a7a;}
+    #matchmaking .mm-vs-divider{font-family:Impact,'Arial Black',sans-serif;font-size:48px;color:#ffd23a;text-shadow:0 4px 0 #4a3000,0 0 20px rgba(255,210,58,0.7);}
+
+    /* --- Endcard (Phase 2 metagame variant) --- */
+    #endcard{z-index:75;}
+    #endcard .endcard-card{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:14px;padding:32px 24px;}
+    #endcard .endcard-result{font-family:Impact,'Arial Black',sans-serif;font-size:60px;letter-spacing:4px;text-shadow:0 4px 0 #003a36,0 0 28px rgba(123,224,216,0.7);color:#7be0d8;}
+    #endcard.outcome-loss .endcard-result{color:#ff3030;text-shadow:0 4px 0 #4a0000,0 0 28px rgba(255,48,48,0.7);}
+    #endcard.outcome-draw .endcard-result{color:#ffd23a;text-shadow:0 4px 0 #4a3000,0 0 28px rgba(255,210,58,0.7);}
+    #endcard .endcard-score{font-family:Impact,'Arial Black',sans-serif;font-size:38px;color:#fff;letter-spacing:6px;text-shadow:0 3px 0 #000;}
+    #endcard .endcard-career{font-size:15px;letter-spacing:3px;color:#ffd23a;background:rgba(0,0,0,0.45);padding:8px 18px;border-radius:18px;border:1px solid rgba(255,210,58,0.35);}
+    #endcard .endcard-career.zero{color:rgba(255,255,255,0.55);border-color:rgba(255,255,255,0.18);}
+    #endcard .endcard-buttons{display:flex;gap:14px;margin-top:14px;flex-wrap:wrap;justify-content:center;}
+
+    /* --- Leaderboard --- */
+    #leaderboard .lb-header{display:flex;align-items:center;justify-content:space-between;width:100%;margin-bottom:8px;}
+    #leaderboard .lb-title{font-size:20px;letter-spacing:4px;color:#ffd23a;text-shadow:0 2px 0 #4a3000;}
+    #leaderboard .lb-reset{font-size:11px;color:rgba(255,255,255,0.5);letter-spacing:2px;margin-bottom:14px;}
+    #leaderboard .lb-list{width:100%;max-width:340px;flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:4px;padding-right:4px;-webkit-overflow-scrolling:touch;}
+    #leaderboard .lb-list::-webkit-scrollbar{width:4px;}
+    #leaderboard .lb-list::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.2);border-radius:2px;}
+    #leaderboard .lb-row{display:flex;align-items:center;gap:10px;padding:8px 12px;background:rgba(255,255,255,0.04);border-radius:10px;border:1px solid rgba(255,255,255,0.06);font-family:'Inter',system-ui,sans-serif;font-size:13px;}
+    #leaderboard .lb-row.player{background:linear-gradient(90deg,rgba(255,210,58,0.18) 0%,rgba(255,210,58,0.05) 100%);border-color:rgba(255,210,58,0.55);box-shadow:0 0 14px rgba(255,210,58,0.25);}
+    #leaderboard .lb-rank{font-family:Impact,'Arial Black',sans-serif;font-size:16px;color:rgba(255,255,255,0.55);min-width:30px;text-align:right;}
+    #leaderboard .lb-row.player .lb-rank{color:#ffd23a;}
+    #leaderboard .lb-flag{font-size:20px;}
+    #leaderboard .lb-name{flex:1;color:#e8e8f0;font-weight:600;letter-spacing:0.5px;}
+    #leaderboard .lb-goals{font-family:Impact,'Arial Black',sans-serif;font-size:18px;color:#ffd23a;}
+    #leaderboard .lb-row.player .lb-name{color:#ffd23a;}
+    #leaderboard .lb-close{margin-top:14px;}
+
+    /* --- Ads (fake rewarded video) --- */
+    #ads-overlay .ad-frame{width:min(86vw,calc(86vh * 9 / 16));max-width:340px;aspect-ratio:9/16;background:linear-gradient(135deg,#1a2030 0%,#0a0a1a 100%);border:3px solid #ffd23a;border-radius:18px;box-shadow:0 0 32px rgba(255,210,58,0.4);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center;position:relative;overflow:hidden;}
+    #ads-overlay .ad-tv-label{position:absolute;top:10px;left:14px;font-size:10px;letter-spacing:3px;color:rgba(255,210,58,0.85);font-family:'Courier New',monospace;}
+    #ads-overlay .ad-skip{position:absolute;top:10px;right:14px;font-size:10px;letter-spacing:1.5px;color:rgba(255,255,255,0.55);font-family:'Courier New',monospace;}
+    #ads-overlay .ad-content{font-family:Impact,'Arial Black',sans-serif;font-size:32px;color:#ffd23a;text-shadow:0 3px 0 #4a3000;letter-spacing:3px;margin-bottom:14px;line-height:1.2;}
+    #ads-overlay .ad-sub{font-size:13px;color:rgba(255,255,255,0.65);letter-spacing:2px;margin-bottom:24px;}
+    #ads-overlay .ad-progress{width:80%;height:6px;background:rgba(255,255,255,0.15);border-radius:3px;overflow:hidden;margin-bottom:14px;}
+    #ads-overlay .ad-progress-fill{height:100%;width:0%;background:linear-gradient(90deg,#ffd23a,#ff8c1a);transition:width 0.2s linear;box-shadow:0 0 12px rgba(255,210,58,0.7);}
+    #ads-overlay .ad-reward{font-family:Impact,'Arial Black',sans-serif;font-size:46px;color:#7be0d8;text-shadow:0 4px 0 #003a36,0 0 20px rgba(123,224,216,0.7);margin:14px 0;display:none;}
+    #ads-overlay .ad-reward.show{display:block;animation:adRewardPop 0.55s cubic-bezier(0.34,1.56,0.64,1);}
+    @keyframes adRewardPop{0%{transform:scale(0.4);opacity:0;}60%{transform:scale(1.2);opacity:1;}100%{transform:scale(1);}}
+    #ads-overlay .ad-actions{margin-top:14px;display:none;}
+    #ads-overlay .ad-actions.show{display:block;}
+
   </style>
-  <script type="module" crossorigin src="./assets/index-C_l_AvxI.js"></script>
+  <script type="module" crossorigin src="./assets/index-DpcmsDyv.js"></script>
   <link rel="stylesheet" crossorigin href="./assets/index-BA0TRR_u.css">
 </head>
 <body>
@@ -157,11 +254,12 @@
       <div class="bb-icon">⚽</div>
     </div>
     <div id="title">1ª A 10 GOLS</div>
+    <div id="match-timer">2:00</div>
     <div id="banner"></div>
     <div id="hint">
       <span class="hint-desktop">
         <span class="key">W</span><span class="key">A</span><span class="key">S</span><span class="key">D</span> MOVER · <span class="key">SPACE</span> DASH (DRIBLA/ROUBA)<br>
-        PARE NA DIREÇÃO P/ CHUTAR · 1ª A 10 GOLS
+        PARE NA DIREÇÃO P/ CHUTAR
       </span>
       <span class="hint-mobile" style="display:none">
         ① SWIPE = SPRINT/DRIBLE/ROUBO (bola anda c/ vc)<br>
@@ -181,14 +279,99 @@
       <div id="sling-line"></div>
       <div id="sling-dot"></div>
     </div>
-    <div id="endcard">
-      <div class="hd">VICTORY!</div>
-      <div class="sub">RIVAL DERROTADO</div>
-      <!-- Hidden CTA preserved so soccer.ts's querySelector(".cta") doesn't crash. Phase 2: re-design endcard with main-menu / continue buttons. -->
+    <div id="endcard" class="scene-overlay">
+      <div class="endcard-card">
+        <div class="endcard-result" id="endcard-result">VITÓRIA!</div>
+        <div class="endcard-score" id="endcard-score">0 × 0</div>
+        <div class="endcard-career" id="endcard-career">+0 gols na carreira</div>
+        <div class="endcard-buttons">
+          <button class="so-btn so-btn-secondary" id="endcard-lobby">↩ LOBBY</button>
+          <button class="so-btn so-btn-primary compact" id="endcard-replay">🔁 JOGAR DE NOVO</button>
+        </div>
+      </div>
+      <!-- Hidden legacy stubs preserved so soccer.ts's queries don't crash. -->
+      <div class="hd" style="display:none"></div>
+      <div class="sub" style="display:none"></div>
       <button class="cta" style="display:none" aria-hidden="true"></button>
-      <button class="replay pe">🔁 JOGAR DE NOVO</button>
+      <button class="replay" style="display:none" aria-hidden="true"></button>
     </div>
     <div id="ver-tag"></div>
+  </div>
+
+  <!-- Phase 2 metagame overlays: lobby, matchmaking, leaderboard, fake ad. -->
+  <div id="lobby" class="scene-overlay">
+    <div class="lobby-header">
+      <div class="lobby-title">⚽ SOCCER 1×1</div>
+      <div class="lobby-profile">⚽ CARREIRA: <span class="profile-num" id="lobby-career">0</span></div>
+    </div>
+
+    <div class="lobby-tickets">
+      <div class="lobby-tickets-row">
+        <span class="lobby-tickets-icon">🎫</span>
+        <span class="lobby-tickets-count" id="lobby-tickets">5</span>
+        <span class="lobby-tickets-max">/10</span>
+      </div>
+      <div class="lobby-regen" id="lobby-regen">próximo em 30:00</div>
+    </div>
+
+    <div class="lobby-play-row">
+      <button class="so-btn so-btn-primary" id="lobby-play">▶ JOGAR (-1🎫)</button>
+    </div>
+
+    <div class="lobby-actions">
+      <button class="lobby-action tv" id="lobby-ads">
+        <span class="icon">📺</span>
+        <span class="label">ASSISTIR AD</span>
+        <span class="badge" id="lobby-ads-badge">+1 🎫</span>
+      </button>
+      <button class="lobby-action" id="lobby-leaderboard">
+        <span class="icon">🏆</span>
+        <span class="label">RANKING</span>
+        <span class="badge" id="lobby-rank-badge">#--</span>
+      </button>
+    </div>
+
+    <div class="lobby-version" id="lobby-version">soccer 1×1 · phase 2 preview</div>
+  </div>
+
+  <div id="matchmaking" class="scene-overlay">
+    <div class="mm-status" id="mm-status">PROCURANDO OPONENTE...</div>
+    <div class="mm-radar"></div>
+    <div class="mm-vs" id="mm-vs">
+      <div class="mm-fighter player">
+        <span class="flag">🇧🇷</span>
+        <span class="name">VOCÊ</span>
+      </div>
+      <div class="mm-vs-divider">VS</div>
+      <div class="mm-fighter rival">
+        <span class="flag" id="mm-rival-flag">🇦🇷</span>
+        <span class="name" id="mm-rival-name">RIVAL</span>
+      </div>
+    </div>
+  </div>
+
+  <div id="leaderboard" class="scene-overlay">
+    <div class="lb-header">
+      <div class="lb-title">🏆 RANKING SEMANAL</div>
+      <button class="so-btn so-btn-ghost" id="lb-close">✕</button>
+    </div>
+    <div class="lb-reset" id="lb-reset">reset em --</div>
+    <div class="lb-list" id="lb-list"></div>
+    <button class="so-btn so-btn-secondary lb-close" id="lb-back">↩ VOLTAR AO LOBBY</button>
+  </div>
+
+  <div id="ads-overlay" class="scene-overlay">
+    <div class="ad-frame">
+      <div class="ad-tv-label">● AD</div>
+      <div class="ad-skip" id="ad-skip">SKIP em --</div>
+      <div class="ad-content" id="ad-content">CARREGANDO<br>ANÚNCIO...</div>
+      <div class="ad-sub" id="ad-sub">aguarde para ganhar +1 ingresso</div>
+      <div class="ad-progress"><div class="ad-progress-fill" id="ad-progress-fill"></div></div>
+      <div class="ad-reward" id="ad-reward">+1 🎫</div>
+      <div class="ad-actions" id="ad-actions">
+        <button class="so-btn so-btn-primary compact" id="ad-claim">RECEBER</button>
+      </div>
+    </div>
   </div>
 
 </body>
