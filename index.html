@@ -194,7 +194,7 @@
     #ads-overlay .ad-actions.show{display:block;}
 
   </style>
-  <script type="module" crossorigin src="./assets/index-xLpZrWoo.js"></script>
+  <script type="module" crossorigin src="./assets/index-CzPmUbyb.js"></script>
   <link rel="stylesheet" crossorigin href="./assets/index-BA0TRR_u.css">
 </head>
 <body>
@@ -256,27 +256,27 @@
         <div class="bb-fill left"></div>
         <div class="bb-fill right"></div>
       </div>
-      <span class="bb-side-label left">VOCÊ</span>
+      <span class="bb-side-label left">YOU</span>
       <span class="bb-score left-num">0</span>
       <span class="bb-score right-num">0</span>
       <span class="bb-side-label right">RIVAL</span>
       <div class="bb-icon">⚽</div>
     </div>
-    <div id="title">1ª A 10 GOLS</div>
+    <div id="title">FIRST TO 10 GOALS</div>
     <div id="match-timer">2:00</div>
     <div id="banner"></div>
     <div id="hint">
       <span class="hint-desktop">
-        <span class="key">W</span><span class="key">A</span><span class="key">S</span><span class="key">D</span> MOVER · <span class="key">SPACE</span> SPRINT · SOLTA EM MOVIMENTO P/ CHUTAR
+        <span class="key">W</span><span class="key">A</span><span class="key">S</span><span class="key">D</span> MOVE · <span class="key">SPACE</span> SPRINT · RELEASE MOVING TO SHOOT
       </span>
       <span class="hint-mobile" style="display:none">
-        ARRASTA = ANDAR (puxa mais p/ SPRINT)<br>
-        FLICK + SOLTA = CHUTE · TAP NA DEFESA = ESCUDO
+        DRAG = MOVE (pull further to SPRINT)<br>
+        FLICK + RELEASE = SHOT · TAP NEAR YOUR GOAL = SHIELD
       </span>
     </div>
     <div id="mobile-hints">
-      <div class="zone left"><div class="icon">👆</div>SWIPE = SPRINT C/ BOLA</div>
-      <div class="zone right"><div class="icon">⚽</div>SEGURA+SWIPE = CHUTE</div>
+      <div class="zone left"><div class="icon">👆</div>SWIPE = SPRINT W/ BALL</div>
+      <div class="zone right"><div class="icon">⚽</div>HOLD+SWIPE = SHOOT</div>
     </div>
     <div id="joystick">
       <div id="joystick-base"></div>
@@ -288,12 +288,12 @@
     </div>
     <div id="endcard" class="scene-overlay">
       <div class="endcard-card">
-        <div class="endcard-result" id="endcard-result">VITÓRIA!</div>
+        <div class="endcard-result" id="endcard-result">VICTORY!</div>
         <div class="endcard-score" id="endcard-score">0 × 0</div>
-        <div class="endcard-career" id="endcard-career">+0 gols na carreira</div>
+        <div class="endcard-career" id="endcard-career">+0 career goals</div>
         <div class="endcard-buttons">
           <button class="so-btn so-btn-secondary" id="endcard-lobby">↩ LOBBY</button>
-          <button class="so-btn so-btn-primary compact" id="endcard-replay">🔁 JOGAR DE NOVO</button>
+          <button class="so-btn so-btn-primary compact" id="endcard-replay">🔁 PLAY AGAIN</button>
         </div>
       </div>
       <!-- Hidden legacy stubs preserved so soccer.ts's queries don't crash. -->
@@ -309,7 +309,7 @@
   <div id="lobby" class="scene-overlay">
     <div class="lobby-header">
       <div class="lobby-title">⚽ SOCCER 1×1</div>
-      <div class="lobby-profile">⚽ CARREIRA: <span class="profile-num" id="lobby-career">0</span></div>
+      <div class="lobby-profile">⚽ CAREER: <span class="profile-num" id="lobby-career">0</span></div>
     </div>
 
     <div class="lobby-tickets">
@@ -318,17 +318,17 @@
         <span class="lobby-tickets-count" id="lobby-tickets">5</span>
         <span class="lobby-tickets-max">/10</span>
       </div>
-      <div class="lobby-regen" id="lobby-regen">próximo em 30:00</div>
+      <div class="lobby-regen" id="lobby-regen">next in 30:00</div>
     </div>
 
     <div class="lobby-play-row">
-      <button class="so-btn so-btn-primary" id="lobby-play">▶ JOGAR (-1🎫)</button>
+      <button class="so-btn so-btn-primary" id="lobby-play">▶ PLAY (-1🎫)</button>
     </div>
 
     <div class="lobby-actions">
       <button class="lobby-action tv" id="lobby-ads">
         <span class="icon">📺</span>
-        <span class="label">ASSISTIR AD</span>
+        <span class="label">WATCH AD</span>
         <span class="badge" id="lobby-ads-badge">+1 🎫</span>
       </button>
       <button class="lobby-action" id="lobby-leaderboard">
@@ -342,12 +342,12 @@
   </div>
 
   <div id="matchmaking" class="scene-overlay">
-    <div class="mm-status" id="mm-status">PROCURANDO OPONENTE...</div>
+    <div class="mm-status" id="mm-status">FINDING OPPONENT...</div>
     <div class="mm-radar"></div>
     <div class="mm-vs" id="mm-vs">
       <div class="mm-fighter player">
         <span class="flag">🇧🇷</span>
-        <span class="name">VOCÊ</span>
+        <span class="name">YOU</span>
       </div>
       <div class="mm-vs-divider">VS</div>
       <div class="mm-fighter rival">
@@ -359,24 +359,24 @@
 
   <div id="leaderboard" class="scene-overlay">
     <div class="lb-header">
-      <div class="lb-title">🏆 RANKING SEMANAL</div>
+      <div class="lb-title">🏆 WEEKLY RANKING</div>
       <button class="so-btn so-btn-ghost" id="lb-close">✕</button>
     </div>
-    <div class="lb-reset" id="lb-reset">reset em --</div>
+    <div class="lb-reset" id="lb-reset">resets in --</div>
     <div class="lb-list" id="lb-list"></div>
-    <button class="so-btn so-btn-secondary lb-close" id="lb-back">↩ VOLTAR AO LOBBY</button>
+    <button class="so-btn so-btn-secondary lb-close" id="lb-back">↩ BACK TO LOBBY</button>
   </div>
 
   <div id="ads-overlay" class="scene-overlay">
     <div class="ad-frame">
       <div class="ad-tv-label">● AD</div>
-      <div class="ad-skip" id="ad-skip">SKIP em --</div>
-      <div class="ad-content" id="ad-content">CARREGANDO<br>ANÚNCIO...</div>
-      <div class="ad-sub" id="ad-sub">aguarde para ganhar +1 ingresso</div>
+      <div class="ad-skip" id="ad-skip">SKIP in --</div>
+      <div class="ad-content" id="ad-content">LOADING<br>AD...</div>
+      <div class="ad-sub" id="ad-sub">wait to earn +1 ticket</div>
       <div class="ad-progress"><div class="ad-progress-fill" id="ad-progress-fill"></div></div>
       <div class="ad-reward" id="ad-reward">+1 🎫</div>
       <div class="ad-actions" id="ad-actions">
-        <button class="so-btn so-btn-primary compact" id="ad-claim">RECEBER</button>
+        <button class="so-btn so-btn-primary compact" id="ad-claim">CLAIM</button>
       </div>
     </div>
   </div>
