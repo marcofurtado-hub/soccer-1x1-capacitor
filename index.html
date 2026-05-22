@@ -112,56 +112,74 @@
     .so-btn-secondary:hover{background:rgba(255,255,255,0.14);}
     .so-btn-ghost{padding:8px 12px;font-size:14px;background:transparent;color:rgba(255,255,255,0.7);border:1px solid rgba(255,255,255,0.22);}
 
-    /* --- Lobby (Phase 3, arcade polish) --- */
-    #lobby{background:radial-gradient(ellipse at 50% 0%,#193a78 0%,#0d1d3e 45%,#04081a 100%);justify-content:flex-start;padding-top:18px;}
-    #lobby::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 30%,rgba(255,210,58,0.06) 0%,transparent 60%),repeating-linear-gradient(135deg,rgba(255,255,255,0.012) 0 2px,transparent 2px 6px);}
+    /* --- Lobby (Phase 3 v43 — voxel arcade home, per reference image) --- */
+    /* IMPORTANT: keep lobby overlay transparent so the 3D canvas (voxel
+       character on its stage) shows through. The renderer clearColor
+       provides the navy background — see soccer.ts updateLobbyScene. */
+    #lobby{justify-content:flex-start;padding:14px 14px 14px;background:transparent;}
+    /* Stadium lights left/right + vignette overlay (decorative, sits on top of canvas) */
+    #lobby::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 8% 25%,rgba(255,255,240,0.07) 0%,transparent 22%),radial-gradient(circle at 92% 25%,rgba(255,255,240,0.07) 0%,transparent 22%),radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,0.45) 100%);}
     #lobby > *{position:relative;z-index:1;}
 
     /* Top bar */
-    #lobby .lobby-topbar{display:flex;align-items:center;justify-content:space-between;width:100%;}
-    #lobby .lobby-brand{display:flex;align-items:center;gap:8px;}
-    #lobby .lobby-brand-icon{font-size:30px;filter:drop-shadow(0 3px 6px rgba(0,0,0,0.55));}
-    #lobby .lobby-brand-text{font-family:Impact,'Arial Black',sans-serif;font-size:22px;letter-spacing:2px;color:#fff;text-shadow:0 2px 0 #000,0 0 12px rgba(255,210,58,0.4);line-height:1;}
-    #lobby .lobby-brand-text span{display:block;font-size:13px;letter-spacing:6px;color:#ffd23a;margin-top:2px;}
-    #lobby .lobby-stats{display:flex;gap:8px;}
-    #lobby .lobby-chip{display:flex;align-items:center;gap:6px;padding:6px 12px;border-radius:18px;background:linear-gradient(145deg,rgba(255,255,255,0.08) 0%,rgba(0,0,0,0.4) 100%);border:1.5px solid rgba(255,210,58,0.5);box-shadow:0 2px 8px rgba(0,0,0,0.5),inset 0 1px 0 rgba(255,255,255,0.12);}
-    #lobby .lobby-chip-icon{font-size:14px;}
-    #lobby .lobby-chip-value{font-family:Impact,'Arial Black',sans-serif;font-size:16px;color:#ffd23a;letter-spacing:1px;line-height:1;}
+    #lobby .lobby-topbar{display:flex;align-items:flex-start;justify-content:space-between;width:100%;}
+    #lobby .lobby-brand{display:flex;align-items:center;gap:10px;}
+    #lobby .lobby-brand-icon{font-size:34px;filter:drop-shadow(0 3px 6px rgba(0,0,0,0.55));}
+    #lobby .lobby-brand-text{font-family:Impact,'Arial Black',sans-serif;font-size:24px;letter-spacing:1.5px;color:#fff;text-shadow:0 2px 0 #000;line-height:1.05;}
+    #lobby .lobby-brand-text span{display:block;font-size:13px;letter-spacing:4px;color:#cfd9ff;margin-top:2px;font-weight:600;}
+    #lobby .lobby-stats{display:flex;flex-direction:column;gap:8px;align-items:flex-end;}
+    #lobby .lobby-chip{display:flex;align-items:center;gap:7px;padding:7px 13px;border-radius:22px;background:linear-gradient(180deg,#1a2a52 0%,#0f1a35 100%);border:1.5px solid rgba(255,255,255,0.18);box-shadow:0 3px 8px rgba(0,0,0,0.55),inset 0 1px 0 rgba(255,255,255,0.12);min-width:78px;justify-content:center;}
+    #lobby .lobby-chip.coin{border-color:rgba(255,210,58,0.5);}
+    #lobby .lobby-chip.rank{border-color:rgba(255,210,58,0.5);}
+    #lobby .lobby-chip-icon{font-size:16px;line-height:1;}
+    #lobby .lobby-chip-value{font-family:Impact,'Arial Black',sans-serif;font-size:18px;color:#ffd23a;letter-spacing:1px;line-height:1;}
 
-    /* Hero ticket card */
-    #lobby .lobby-hero{margin:36px 0 22px;display:flex;justify-content:center;width:100%;}
-    #lobby .lobby-ticket-card{position:relative;background:linear-gradient(180deg,#2a1f08 0%,#1a1404 100%);border:3px solid #ffd23a;border-radius:18px;padding:16px 30px 12px;min-width:240px;text-align:center;box-shadow:0 6px 0 #4a3000,0 12px 24px rgba(0,0,0,0.6),inset 0 1px 0 rgba(255,255,255,0.18);}
-    #lobby .ticket-card-label{font-family:Impact,'Arial Black',sans-serif;font-size:12px;letter-spacing:5px;color:#ffd23a;text-shadow:0 2px 0 #000;margin-bottom:2px;}
-    #lobby .ticket-card-main{display:flex;align-items:center;justify-content:center;gap:14px;font-family:Impact,'Arial Black',sans-serif;line-height:1;}
-    #lobby .ticket-card-icon{font-size:46px;filter:drop-shadow(0 3px 5px rgba(0,0,0,0.7));}
-    #lobby .ticket-card-count{font-size:74px;color:#fff;text-shadow:0 4px 0 #4a3000,0 0 22px rgba(255,210,58,0.7);}
-    #lobby .ticket-card-max{font-size:30px;color:rgba(255,255,255,0.45);}
-    #lobby .ticket-card-regen{margin-top:6px;font-size:12px;color:#7be0d8;letter-spacing:2px;}
-    #lobby .ticket-card-regen.full{color:rgba(255,255,255,0.5);}
+    /* Status pill (TEST MODE / next in X) */
+    #lobby .lobby-status{display:flex;align-items:center;gap:10px;padding:10px 16px;margin:14px auto 0;background:linear-gradient(180deg,#1a2a52 0%,#0f1a35 100%);border:1.5px solid rgba(255,210,58,0.55);border-radius:18px;box-shadow:0 4px 12px rgba(0,0,0,0.55),inset 0 1px 0 rgba(255,255,255,0.14);}
+    #lobby .lobby-status .status-icon{font-size:24px;filter:drop-shadow(0 2px 3px rgba(0,0,0,0.6));}
+    #lobby .lobby-status .status-text{display:flex;flex-direction:column;line-height:1.1;}
+    #lobby .lobby-status .status-title{font-family:Impact,'Arial Black',sans-serif;font-size:14px;letter-spacing:2.5px;color:#ffd23a;}
+    #lobby .lobby-status .status-sub{font-size:10px;letter-spacing:2.2px;color:rgba(255,255,255,0.72);}
+    #lobby .lobby-status .status-dot{width:9px;height:9px;border-radius:50%;background:#3ee580;box-shadow:0 0 8px rgba(62,229,128,0.85);}
 
-    /* Big PLAY button */
-    #lobby .lobby-play-row{margin:12px 0 28px;display:flex;justify-content:center;}
-    #lobby .lobby-play-btn{display:inline-flex;align-items:baseline;gap:10px;padding:20px 50px;font-family:Impact,'Arial Black',sans-serif;border:none;cursor:pointer;border-radius:18px;background:linear-gradient(180deg,#fff298 0%,#ffd23a 35%,#ff8c1a 100%);color:#3a1500;letter-spacing:3px;box-shadow:0 8px 0 #6a3a00,0 14px 28px rgba(255,140,30,0.45),inset 0 2px 0 rgba(255,255,255,0.6);animation:lobbyPlayPulse 1.4s ease-in-out infinite;transition:transform 0.12s ease,box-shadow 0.12s ease,filter 0.18s ease;}
-    #lobby .lobby-play-btn:active{transform:translateY(4px);box-shadow:0 4px 0 #6a3a00,0 8px 16px rgba(255,140,30,0.4),inset 0 2px 0 rgba(255,255,255,0.6);}
+    /* Stage area: voxel character is drawn into the 3D canvas;
+       the glow + arrows are HTML decoration on top of it */
+    #lobby .lobby-stage{position:relative;flex:1;width:100%;display:flex;align-items:center;justify-content:center;min-height:240px;margin:8px 0 4px;}
+    #lobby .lobby-stage-glow{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);width:60%;height:18px;border-radius:50%;background:radial-gradient(ellipse at center,rgba(80,140,255,0.55) 0%,rgba(80,140,255,0.18) 50%,transparent 80%);filter:blur(2px);pointer-events:none;}
+    #lobby .lobby-stage-arrows{position:absolute;inset:0;display:flex;align-items:center;justify-content:space-between;padding:0 14px;pointer-events:none;}
+    #lobby .stage-arrow{font-family:Impact,'Arial Black',sans-serif;font-size:42px;color:rgba(255,255,255,0.25);font-weight:bold;}
+
+    /* Big PLAY button (yellow, 3D) */
+    #lobby .lobby-play-row{margin:6px 0 14px;display:flex;justify-content:center;width:100%;}
+    #lobby .lobby-play-btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;width:88%;max-width:340px;padding:18px 0;font-family:Impact,'Arial Black',sans-serif;border:3px solid #f59f10;cursor:pointer;border-radius:16px;background:linear-gradient(180deg,#ffe680 0%,#ffd33a 45%,#ffb01a 100%);color:#2d1700;letter-spacing:3px;box-shadow:0 8px 0 #a05900,0 12px 22px rgba(255,140,30,0.4),inset 0 2px 0 rgba(255,255,255,0.55);animation:lobbyPlayPulse 1.4s ease-in-out infinite;transition:transform 0.12s ease,box-shadow 0.12s ease,filter 0.18s ease;}
+    #lobby .lobby-play-btn:active{transform:translateY(4px);box-shadow:0 4px 0 #a05900,0 7px 14px rgba(255,140,30,0.4),inset 0 2px 0 rgba(255,255,255,0.55);}
     #lobby .lobby-play-btn:disabled{animation:none;filter:grayscale(0.6);opacity:0.55;cursor:not-allowed;}
-    #lobby .play-arrow{font-size:24px;}
-    #lobby .play-label{font-size:34px;}
-    #lobby .play-cost{font-size:14px;letter-spacing:2px;opacity:0.85;}
-    @keyframes lobbyPlayPulse{0%,100%{transform:translateY(0);}50%{transform:translateY(-4px);}}
+    #lobby .play-arrow{font-size:26px;}
+    #lobby .play-label{font-size:30px;}
+    #lobby .play-cost{display:none;font-size:13px;letter-spacing:2px;opacity:0.78;}
+    @keyframes lobbyPlayPulse{0%,100%{transform:translateY(0);}50%{transform:translateY(-3px);}}
 
-    /* Action card row */
-    #lobby .lobby-actions{display:flex;gap:14px;width:100%;justify-content:center;padding:0 6px;}
-    #lobby .lobby-action-card{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;flex:1;max-width:150px;padding:14px 8px 12px;background:linear-gradient(180deg,#1f3a6b 0%,#0e1d3a 100%);border:2px solid rgba(255,255,255,0.22);border-radius:14px;cursor:pointer;color:#fff;font-family:Impact,'Arial Black',sans-serif;letter-spacing:1.5px;box-shadow:0 5px 0 rgba(0,0,0,0.5),0 10px 18px rgba(0,0,0,0.45),inset 0 1px 0 rgba(255,255,255,0.14);transition:transform 0.12s ease,box-shadow 0.12s ease;}
-    #lobby .lobby-action-card:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(0,0,0,0.5),0 5px 10px rgba(0,0,0,0.45),inset 0 1px 0 rgba(255,255,255,0.14);}
+    /* Action cards (icon on the left, label stacked on right) */
+    #lobby .lobby-actions{display:flex;gap:10px;width:100%;justify-content:center;padding:0 4px;margin-bottom:8px;}
+    #lobby .lobby-action-card{position:relative;display:flex;align-items:center;justify-content:flex-start;gap:10px;flex:1;max-width:200px;padding:10px 12px;background:linear-gradient(180deg,#1a2a52 0%,#0f1a35 100%);border:2px solid rgba(255,255,255,0.16);border-radius:14px;cursor:pointer;color:#fff;font-family:Impact,'Arial Black',sans-serif;text-align:left;box-shadow:0 5px 0 rgba(0,0,0,0.55),0 9px 16px rgba(0,0,0,0.45),inset 0 1px 0 rgba(255,255,255,0.12);transition:transform 0.12s ease,box-shadow 0.12s ease;}
+    #lobby .lobby-action-card:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(0,0,0,0.55),0 5px 10px rgba(0,0,0,0.45),inset 0 1px 0 rgba(255,255,255,0.12);}
     #lobby .lobby-action-card:disabled{opacity:0.5;cursor:not-allowed;filter:grayscale(0.65);}
-    #lobby .lobby-action-card.tv{border-color:rgba(123,224,216,0.5);}
+    #lobby .lobby-action-card.tv{border-color:rgba(91,162,255,0.55);}
     #lobby .lobby-action-card.lb{border-color:rgba(255,210,58,0.55);}
-    #lobby .action-icon{font-size:36px;line-height:1;filter:drop-shadow(0 3px 5px rgba(0,0,0,0.55));}
-    #lobby .action-label{font-size:12px;color:#fff;}
-    #lobby .action-reward{font-size:12px;color:#7be0d8;letter-spacing:1px;}
-    #lobby .lobby-action-card.lb .action-reward{color:#ffd23a;}
+    #lobby .action-icon{font-size:30px;line-height:1;filter:drop-shadow(0 3px 5px rgba(0,0,0,0.55));}
+    #lobby .action-text{display:flex;flex-direction:column;line-height:1.15;}
+    #lobby .action-label{font-size:14px;color:#fff;letter-spacing:1px;}
+    #lobby .action-reward{font-size:9px;color:rgba(140,200,255,0.85);letter-spacing:2px;margin-top:2px;}
+    #lobby .lobby-action-card.lb .action-reward{color:rgba(255,210,58,0.85);}
 
-    #lobby .lobby-version{position:absolute;bottom:8px;font-size:9px;color:rgba(255,255,255,0.32);letter-spacing:2px;}
+    /* Corner icons */
+    #lobby .lobby-corner-btn{position:absolute;bottom:12px;width:44px;height:44px;border-radius:50%;background:linear-gradient(180deg,#1a2a52 0%,#0f1a35 100%);border:2px solid rgba(255,255,255,0.18);color:#fff;font-size:20px;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 0 rgba(0,0,0,0.55),0 6px 12px rgba(0,0,0,0.4);transition:transform 0.12s ease;}
+    #lobby .lobby-corner-btn:active{transform:translateY(2px);}
+    #lobby .lobby-corner-btn.settings{left:14px;}
+    #lobby .lobby-corner-btn.notif{right:14px;}
+    #lobby .lobby-corner-btn .notif-dot{position:absolute;top:6px;right:6px;width:8px;height:8px;border-radius:50%;background:#ff3a2c;box-shadow:0 0 6px rgba(255,58,44,0.7);}
+
+    #lobby .lobby-version{position:absolute;bottom:18px;font-size:9px;color:rgba(255,255,255,0.35);letter-spacing:3px;text-align:center;width:100%;pointer-events:none;}
 
     /* --- Matchmaking --- */
     #matchmaking .mm-status{font-size:16px;letter-spacing:4px;color:#7be0d8;margin-bottom:18px;text-shadow:0 0 12px rgba(123,224,216,0.6);}
@@ -222,7 +240,7 @@
     #ads-overlay .ad-actions.show{display:block;}
 
   </style>
-  <script type="module" crossorigin src="./assets/index-Ci4ZYF8n.js"></script>
+  <script type="module" crossorigin src="./assets/index-DagmgXZo.js"></script>
   <link rel="stylesheet" crossorigin href="./assets/index-BA0TRR_u.css">
 </head>
 <body>
@@ -333,17 +351,17 @@
     <div id="ver-tag"></div>
   </div>
 
-  <!-- Phase 3 lobby — arcade vibe (Clash Royale-style polish) -->
+  <!-- Phase 3 lobby — arcade voxel game home -->
   <div id="lobby" class="scene-overlay">
-    <!-- Top bar: logo + stat chips -->
+    <!-- Top bar: brand + stat chips -->
     <div class="lobby-topbar">
       <div class="lobby-brand">
         <div class="lobby-brand-icon">⚽</div>
         <div class="lobby-brand-text">SOCCER<span>1×1</span></div>
       </div>
       <div class="lobby-stats">
-        <div class="lobby-chip career">
-          <span class="lobby-chip-icon">⚽</span>
+        <div class="lobby-chip coin">
+          <span class="lobby-chip-icon">🪙</span>
           <span class="lobby-chip-value" id="lobby-career">0</span>
         </div>
         <div class="lobby-chip rank">
@@ -353,16 +371,25 @@
       </div>
     </div>
 
-    <!-- Hero card: tickets -->
-    <div class="lobby-hero">
-      <div class="lobby-ticket-card">
-        <div class="ticket-card-label">TICKETS</div>
-        <div class="ticket-card-main">
-          <span class="ticket-card-icon">🎫</span>
-          <span class="ticket-card-count" id="lobby-tickets">5</span>
-          <span class="ticket-card-max">/10</span>
-        </div>
-        <div class="ticket-card-regen" id="lobby-regen">next in 30:00</div>
+    <!-- Status badge (TEST MODE / next in ...) -->
+    <div class="lobby-status" id="lobby-status">
+      <span class="status-icon">🎫</span>
+      <div class="status-text">
+        <span class="status-title" id="lobby-status-title">TEST MODE</span>
+        <span class="status-sub" id="lobby-regen">UNLIMITED MATCHES</span>
+      </div>
+      <span class="status-dot"></span>
+    </div>
+
+    <!-- Hidden ticket counter (kept so orchestrator updates still find the ID) -->
+    <span id="lobby-tickets" style="display:none">5</span>
+
+    <!-- Voxel character platform area (3D character is rendered into #game-canvas; the platform glow is HTML/CSS) -->
+    <div class="lobby-stage" aria-hidden="true">
+      <div class="lobby-stage-glow"></div>
+      <div class="lobby-stage-arrows">
+        <div class="stage-arrow left">‹</div>
+        <div class="stage-arrow right">›</div>
       </div>
     </div>
 
@@ -375,21 +402,29 @@
       </button>
     </div>
 
-    <!-- Action card row -->
+    <!-- Action cards -->
     <div class="lobby-actions">
       <button class="lobby-action-card tv" id="lobby-ads">
         <span class="action-icon">📺</span>
-        <span class="action-label">WATCH AD</span>
-        <span class="action-reward" id="lobby-ads-badge">+1 🎫</span>
+        <div class="action-text">
+          <span class="action-label">WATCH AD</span>
+          <span class="action-reward" id="lobby-ads-badge">EARN REWARDS</span>
+        </div>
       </button>
       <button class="lobby-action-card lb" id="lobby-leaderboard">
         <span class="action-icon">🏆</span>
-        <span class="action-label">LEADERBOARD</span>
-        <span class="action-reward">VIEW</span>
+        <div class="action-text">
+          <span class="action-label">LEADERBOARD</span>
+          <span class="action-reward">VIEW TOP PLAYERS</span>
+        </div>
       </button>
     </div>
 
-    <div class="lobby-version" id="lobby-version">soccer 1×1 · v41</div>
+    <!-- Corner icons -->
+    <button class="lobby-corner-btn settings" id="lobby-settings" aria-label="Settings">⚙</button>
+    <button class="lobby-corner-btn notif" id="lobby-notif" aria-label="Notifications">🔔<span class="notif-dot"></span></button>
+
+    <div class="lobby-version" id="lobby-version">SOCCER 1×1 · v42</div>
   </div>
 
   <div id="matchmaking" class="scene-overlay">
