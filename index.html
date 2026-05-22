@@ -140,8 +140,10 @@
     #lobby .lobby-chip-icon{font-size:16px;line-height:1;}
     #lobby .lobby-chip-value{font-family:Impact,'Arial Black',sans-serif;font-size:18px;color:#ffd23a;letter-spacing:1px;line-height:1;}
 
+    /* Status row: settings | TEST MODE pill | notifications, aligned on one line */
+    #lobby .lobby-status-row{display:flex;align-items:center;justify-content:center;gap:12px;margin:14px 0 0;width:100%;}
     /* Status pill (TEST MODE / next in X) */
-    #lobby .lobby-status{display:flex;align-items:center;gap:10px;padding:10px 16px;margin:14px auto 0;background:linear-gradient(180deg,#1a2a52 0%,#0f1a35 100%);border:1.5px solid rgba(255,210,58,0.55);border-radius:18px;box-shadow:0 4px 12px rgba(0,0,0,0.55),inset 0 1px 0 rgba(255,255,255,0.14);}
+    #lobby .lobby-status{display:flex;align-items:center;gap:10px;padding:10px 16px;background:linear-gradient(180deg,#1a2a52 0%,#0f1a35 100%);border:1.5px solid rgba(255,210,58,0.55);border-radius:18px;box-shadow:0 4px 12px rgba(0,0,0,0.55),inset 0 1px 0 rgba(255,255,255,0.14);}
     #lobby .lobby-status .status-icon{font-size:24px;filter:drop-shadow(0 2px 3px rgba(0,0,0,0.6));}
     #lobby .lobby-status .status-text{display:flex;flex-direction:column;line-height:1.1;}
     #lobby .lobby-status .status-title{font-family:Impact,'Arial Black',sans-serif;font-size:14px;letter-spacing:2.5px;color:#ffd23a;}
@@ -179,10 +181,9 @@
     #lobby .lobby-action-card.lb .action-reward{color:rgba(255,210,58,0.85);}
 
     /* Corner icons */
-    #lobby .lobby-corner-btn{position:absolute;bottom:12px;width:44px;height:44px;border-radius:50%;background:linear-gradient(180deg,#1a2a52 0%,#0f1a35 100%);border:2px solid rgba(255,255,255,0.18);color:#fff;font-size:20px;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 0 rgba(0,0,0,0.55),0 6px 12px rgba(0,0,0,0.4);transition:transform 0.12s ease;}
+    /* Settings + notifications buttons, sitting flanking the TEST MODE pill */
+    #lobby .lobby-corner-btn{position:relative;flex:0 0 auto;width:44px;height:44px;border-radius:50%;background:linear-gradient(180deg,#1a2a52 0%,#0f1a35 100%);border:2px solid rgba(255,255,255,0.18);color:#fff;font-size:20px;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 0 rgba(0,0,0,0.55),0 6px 12px rgba(0,0,0,0.4);transition:transform 0.12s ease;padding:0;}
     #lobby .lobby-corner-btn:active{transform:translateY(2px);}
-    #lobby .lobby-corner-btn.settings{left:14px;}
-    #lobby .lobby-corner-btn.notif{right:14px;}
     #lobby .lobby-corner-btn .notif-dot{position:absolute;top:6px;right:6px;width:8px;height:8px;border-radius:50%;background:#ff3a2c;box-shadow:0 0 6px rgba(255,58,44,0.7);}
 
     #lobby .lobby-version{position:absolute;bottom:18px;font-size:9px;color:rgba(255,255,255,0.35);letter-spacing:3px;text-align:center;width:100%;pointer-events:none;}
@@ -246,7 +247,7 @@
     #ads-overlay .ad-actions.show{display:block;}
 
   </style>
-  <script type="module" crossorigin src="./assets/index-CNc8_dlQ.js"></script>
+  <script type="module" crossorigin src="./assets/index-BOUMWeBI.js"></script>
   <link rel="stylesheet" crossorigin href="./assets/index-BA0TRR_u.css">
 </head>
 <body>
@@ -377,14 +378,18 @@
       </div>
     </div>
 
-    <!-- Status badge (TEST MODE / next in ...) -->
-    <div class="lobby-status" id="lobby-status">
-      <span class="status-icon">🎫</span>
-      <div class="status-text">
-        <span class="status-title" id="lobby-status-title">TEST MODE</span>
-        <span class="status-sub" id="lobby-regen">UNLIMITED MATCHES</span>
+    <!-- Status row: settings | TEST MODE / next-in pill | notifications -->
+    <div class="lobby-status-row">
+      <button class="lobby-corner-btn settings" id="lobby-settings" aria-label="Settings">⚙</button>
+      <div class="lobby-status" id="lobby-status">
+        <span class="status-icon">🎫</span>
+        <div class="status-text">
+          <span class="status-title" id="lobby-status-title">TEST MODE</span>
+          <span class="status-sub" id="lobby-regen">UNLIMITED MATCHES</span>
+        </div>
+        <span class="status-dot"></span>
       </div>
-      <span class="status-dot"></span>
+      <button class="lobby-corner-btn notif" id="lobby-notif" aria-label="Notifications">🔔<span class="notif-dot"></span></button>
     </div>
 
     <!-- Hidden ticket counter (kept so orchestrator updates still find the ID) -->
@@ -426,9 +431,7 @@
       </button>
     </div>
 
-    <!-- Corner icons -->
-    <button class="lobby-corner-btn settings" id="lobby-settings" aria-label="Settings">⚙</button>
-    <button class="lobby-corner-btn notif" id="lobby-notif" aria-label="Notifications">🔔<span class="notif-dot"></span></button>
+    <!-- (settings + notif buttons live in .lobby-status-row above the stage) -->
 
     <div class="lobby-version" id="lobby-version">SOCCER 1×1 · v42</div>
   </div>
