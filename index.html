@@ -232,6 +232,28 @@
     #leaderboard .lb-row.player .lb-name{color:#ffd23a;}
     #leaderboard .lb-close{margin-top:14px;}
 
+    /* --- Settings + Notifications overlays --- */
+    #settings, #notifications{padding:24px 18px;}
+    .settings-list{width:100%;max-width:340px;display:flex;flex-direction:column;gap:10px;}
+    .settings-row{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:linear-gradient(180deg,#1a2a52 0%,#0f1a35 100%);border:1.5px solid rgba(255,255,255,0.18);border-radius:14px;box-shadow:0 3px 8px rgba(0,0,0,0.55),inset 0 1px 0 rgba(255,255,255,0.12);font-family:Impact,'Arial Black',sans-serif;letter-spacing:2px;cursor:pointer;}
+    .settings-label{font-size:14px;color:#fff;}
+    .settings-value{font-size:12px;color:rgba(255,255,255,0.65);letter-spacing:1.5px;}
+    /* Custom toggle switch */
+    .settings-toggle{position:absolute;opacity:0;pointer-events:none;}
+    .settings-toggle-track{display:inline-block;position:relative;width:44px;height:24px;background:#0a0f1f;border:1.5px solid rgba(255,255,255,0.18);border-radius:12px;transition:background 0.2s;}
+    .settings-toggle-track::after{content:"";position:absolute;left:2px;top:2px;width:18px;height:18px;border-radius:50%;background:radial-gradient(circle,#fff 30%,#aaa 100%);transition:left 0.2s,background 0.2s;}
+    .settings-toggle:checked ~ .settings-toggle-track{background:#3ee580;border-color:#7be8a8;}
+    .settings-toggle:checked ~ .settings-toggle-track::after{left:22px;background:radial-gradient(circle,#fff 30%,#ddffdd 100%);}
+    /* Notifications list */
+    .notif-list{width:100%;max-width:340px;flex:1;display:flex;flex-direction:column;gap:8px;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+    .notif-row{display:flex;gap:10px;padding:12px 14px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-radius:10px;font-family:'Inter',system-ui,sans-serif;}
+    .notif-row.unread{background:linear-gradient(90deg,rgba(255,210,58,0.12) 0%,rgba(255,210,58,0.03) 100%);border-color:rgba(255,210,58,0.45);}
+    .notif-icon{font-size:22px;line-height:1;flex:0 0 auto;}
+    .notif-body{display:flex;flex-direction:column;gap:3px;flex:1;}
+    .notif-title{font-family:Impact,'Arial Black',sans-serif;font-size:13px;letter-spacing:1.5px;color:#fff;}
+    .notif-row.unread .notif-title{color:#ffd23a;}
+    .notif-sub{font-size:11px;color:rgba(255,255,255,0.6);line-height:1.4;}
+
     /* --- Ads (fake rewarded video) --- */
     #ads-overlay .ad-frame{width:min(86vw,calc(86vh * 9 / 16));max-width:340px;aspect-ratio:9/16;background:linear-gradient(135deg,#1a2030 0%,#0a0a1a 100%);border:3px solid #ffd23a;border-radius:18px;box-shadow:0 0 32px rgba(255,210,58,0.4);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center;position:relative;overflow:hidden;}
     #ads-overlay .ad-tv-label{position:absolute;top:10px;left:14px;font-size:10px;letter-spacing:3px;color:rgba(255,210,58,0.85);font-family:'Courier New',monospace;}
@@ -247,7 +269,7 @@
     #ads-overlay .ad-actions.show{display:block;}
 
   </style>
-  <script type="module" crossorigin src="./assets/index-DbFJwrx6.js"></script>
+  <script type="module" crossorigin src="./assets/index-B_mM2Uwy.js"></script>
   <link rel="stylesheet" crossorigin href="./assets/index-BA0TRR_u.css">
 </head>
 <body>
@@ -450,6 +472,37 @@
         <span class="name" id="mm-rival-name">RIVAL</span>
       </div>
     </div>
+  </div>
+
+  <!-- Settings overlay — audio mute, reset progress -->
+  <div id="settings" class="scene-overlay">
+    <div class="lb-header">
+      <div class="lb-title">⚙ SETTINGS</div>
+      <button class="so-btn so-btn-ghost" id="settings-close">✕</button>
+    </div>
+    <div class="settings-list">
+      <label class="settings-row">
+        <span class="settings-label">SOUND</span>
+        <input type="checkbox" id="settings-sound" class="settings-toggle" checked />
+        <span class="settings-toggle-track"></span>
+      </label>
+      <div class="settings-row">
+        <span class="settings-label">VERSION</span>
+        <span class="settings-value" id="settings-version">—</span>
+      </div>
+      <button class="so-btn so-btn-secondary" id="settings-reset" style="margin-top:14px;">RESET CAREER PROGRESS</button>
+    </div>
+    <button class="so-btn so-btn-secondary lb-close" id="settings-back" style="margin-top:14px;">↩ BACK TO LOBBY</button>
+  </div>
+
+  <!-- Notifications overlay — simple in-game news/announcement list -->
+  <div id="notifications" class="scene-overlay">
+    <div class="lb-header">
+      <div class="lb-title">🔔 NOTIFICATIONS</div>
+      <button class="so-btn so-btn-ghost" id="notif-close">✕</button>
+    </div>
+    <div class="notif-list" id="notif-list"></div>
+    <button class="so-btn so-btn-secondary lb-close" id="notif-back" style="margin-top:14px;">↩ BACK TO LOBBY</button>
   </div>
 
   <div id="leaderboard" class="scene-overlay">
