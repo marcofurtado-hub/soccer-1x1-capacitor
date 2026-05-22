@@ -89,8 +89,13 @@
 
     /* === Phase 2 metagame HUD: match countdown timer === */
     #match-timer{position:absolute;top:64px;left:50%;transform:translateX(-50%);font-family:Impact,'Arial Black',sans-serif;font-size:36px;font-weight:900;letter-spacing:3px;color:#fff;text-shadow:0 3px 0 #000,0 0 14px rgba(0,0,0,0.7);background:rgba(0,0,0,0.55);padding:4px 18px;border-radius:12px;border:1px solid rgba(255,255,255,0.18);pointer-events:none;line-height:1.1;}
-    #match-timer.danger{color:#ff3030;text-shadow:0 3px 0 #4a0000,0 0 18px rgba(255,48,48,0.85);animation:timerPulse 0.6s ease-in-out infinite;}
-    @keyframes timerPulse{0%,100%{transform:translateX(-50%) scale(1);}50%{transform:translateX(-50%) scale(1.12);}}
+    #match-timer.danger{color:#ff3030;background:rgba(60,0,0,0.7);border-color:rgba(255,80,80,0.7);text-shadow:0 3px 0 #4a0000,0 0 24px rgba(255,48,48,0.95);box-shadow:0 0 30px rgba(255,48,48,0.7);animation:timerCrunch 0.45s ease-in-out infinite;}
+    @keyframes timerCrunch{0%,100%{transform:translateX(-50%) scale(1);}50%{transform:translateX(-50%) scale(1.22);}}
+
+    /* Crunch-time mood: pulsing red vignette overlay on the screen edges */
+    body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:55;background:radial-gradient(ellipse at center,transparent 45%,rgba(255,30,30,0) 70%,rgba(255,20,20,0) 100%);opacity:0;transition:opacity 0.3s ease;}
+    body.crunch-time::after{background:radial-gradient(ellipse at center,transparent 35%,rgba(255,20,20,0.18) 70%,rgba(255,20,20,0.55) 100%);opacity:1;animation:crunchPulse 0.45s ease-in-out infinite;}
+    @keyframes crunchPulse{0%,100%{filter:brightness(1) saturate(1);}50%{filter:brightness(1.5) saturate(1.4);}}
 
     /* === Phase 2 metagame: overlay scenes (lobby / matchmaking / leaderboard / ads / endcard) === */
     .scene-overlay{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(100vw,calc(100vh * 9 / 16));height:min(100vh,calc(100vw * 16 / 9));display:none;flex-direction:column;align-items:center;justify-content:center;padding:24px;z-index:70;background:radial-gradient(ellipse at center,rgba(8,18,12,0.78) 0%,rgba(4,4,8,0.96) 100%);pointer-events:auto;}
@@ -189,7 +194,7 @@
     #ads-overlay .ad-actions.show{display:block;}
 
   </style>
-  <script type="module" crossorigin src="./assets/index-mcFLdWe1.js"></script>
+  <script type="module" crossorigin src="./assets/index-BRW10LpO.js"></script>
   <link rel="stylesheet" crossorigin href="./assets/index-BA0TRR_u.css">
 </head>
 <body>
