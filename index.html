@@ -112,28 +112,56 @@
     .so-btn-secondary:hover{background:rgba(255,255,255,0.14);}
     .so-btn-ghost{padding:8px 12px;font-size:14px;background:transparent;color:rgba(255,255,255,0.7);border:1px solid rgba(255,255,255,0.22);}
 
-    /* --- Lobby --- */
-    #lobby .lobby-header{display:flex;align-items:center;justify-content:space-between;width:100%;margin-bottom:14px;}
-    #lobby .lobby-title{font-size:18px;letter-spacing:4px;color:#ffcc33;text-shadow:0 2px 0 #4a3000,0 0 14px rgba(255,210,58,0.5);}
-    #lobby .lobby-profile{display:flex;align-items:center;gap:8px;font-size:14px;color:#e8e8f0;background:rgba(0,0,0,0.4);padding:6px 12px;border-radius:18px;border:1px solid rgba(255,255,255,0.12);}
-    #lobby .lobby-profile .profile-num{color:#ffd23a;font-family:Impact,'Arial Black',sans-serif;font-size:18px;}
-    #lobby .lobby-tickets{display:flex;flex-direction:column;align-items:center;margin:28px 0 12px;}
-    #lobby .lobby-tickets-row{display:flex;align-items:center;gap:14px;font-family:Impact,'Arial Black',sans-serif;}
-    #lobby .lobby-tickets-icon{font-size:62px;filter:drop-shadow(0 4px 8px rgba(0,0,0,0.6));}
-    #lobby .lobby-tickets-count{font-size:88px;color:#ffd23a;text-shadow:0 4px 0 #4a3000,0 0 24px rgba(255,210,58,0.55);line-height:1;}
-    #lobby .lobby-tickets-max{font-size:36px;color:rgba(255,255,255,0.55);line-height:1;}
-    #lobby .lobby-regen{margin-top:10px;font-size:13px;color:#7be0d8;letter-spacing:2px;}
-    #lobby .lobby-regen.full{color:rgba(255,255,255,0.45);}
-    #lobby .lobby-play-row{margin:18px 0 24px;}
-    #lobby .lobby-actions{display:flex;gap:14px;align-items:center;justify-content:center;width:100%;flex-wrap:wrap;}
-    #lobby .lobby-action{display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px 18px;background:rgba(255,255,255,0.06);border:1.5px solid rgba(255,255,255,0.18);border-radius:18px;cursor:pointer;transition:all 0.18s ease;color:#fff;min-width:96px;font-family:Impact,'Arial Black',sans-serif;letter-spacing:1.5px;}
-    #lobby .lobby-action:active{transform:translateY(2px) scale(0.97);}
-    #lobby .lobby-action:disabled{opacity:0.45;cursor:not-allowed;filter:grayscale(0.6);}
-    #lobby .lobby-action .icon{font-size:30px;line-height:1;}
-    #lobby .lobby-action .label{font-size:11px;color:rgba(255,255,255,0.85);}
-    #lobby .lobby-action .badge{font-size:11px;color:#7be0d8;letter-spacing:1px;margin-top:2px;}
-    #lobby .lobby-action.tv{border-color:rgba(123,224,216,0.45);}
-    #lobby .lobby-version{position:absolute;bottom:10px;font-size:9px;color:rgba(255,255,255,0.35);letter-spacing:2px;}
+    /* --- Lobby (Phase 3, arcade polish) --- */
+    #lobby{background:radial-gradient(ellipse at 50% 0%,#193a78 0%,#0d1d3e 45%,#04081a 100%);justify-content:flex-start;padding-top:18px;}
+    #lobby::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 30%,rgba(255,210,58,0.06) 0%,transparent 60%),repeating-linear-gradient(135deg,rgba(255,255,255,0.012) 0 2px,transparent 2px 6px);}
+    #lobby > *{position:relative;z-index:1;}
+
+    /* Top bar */
+    #lobby .lobby-topbar{display:flex;align-items:center;justify-content:space-between;width:100%;}
+    #lobby .lobby-brand{display:flex;align-items:center;gap:8px;}
+    #lobby .lobby-brand-icon{font-size:30px;filter:drop-shadow(0 3px 6px rgba(0,0,0,0.55));}
+    #lobby .lobby-brand-text{font-family:Impact,'Arial Black',sans-serif;font-size:22px;letter-spacing:2px;color:#fff;text-shadow:0 2px 0 #000,0 0 12px rgba(255,210,58,0.4);line-height:1;}
+    #lobby .lobby-brand-text span{display:block;font-size:13px;letter-spacing:6px;color:#ffd23a;margin-top:2px;}
+    #lobby .lobby-stats{display:flex;gap:8px;}
+    #lobby .lobby-chip{display:flex;align-items:center;gap:6px;padding:6px 12px;border-radius:18px;background:linear-gradient(145deg,rgba(255,255,255,0.08) 0%,rgba(0,0,0,0.4) 100%);border:1.5px solid rgba(255,210,58,0.5);box-shadow:0 2px 8px rgba(0,0,0,0.5),inset 0 1px 0 rgba(255,255,255,0.12);}
+    #lobby .lobby-chip-icon{font-size:14px;}
+    #lobby .lobby-chip-value{font-family:Impact,'Arial Black',sans-serif;font-size:16px;color:#ffd23a;letter-spacing:1px;line-height:1;}
+
+    /* Hero ticket card */
+    #lobby .lobby-hero{margin:36px 0 22px;display:flex;justify-content:center;width:100%;}
+    #lobby .lobby-ticket-card{position:relative;background:linear-gradient(180deg,#2a1f08 0%,#1a1404 100%);border:3px solid #ffd23a;border-radius:18px;padding:16px 30px 12px;min-width:240px;text-align:center;box-shadow:0 6px 0 #4a3000,0 12px 24px rgba(0,0,0,0.6),inset 0 1px 0 rgba(255,255,255,0.18);}
+    #lobby .ticket-card-label{font-family:Impact,'Arial Black',sans-serif;font-size:12px;letter-spacing:5px;color:#ffd23a;text-shadow:0 2px 0 #000;margin-bottom:2px;}
+    #lobby .ticket-card-main{display:flex;align-items:center;justify-content:center;gap:14px;font-family:Impact,'Arial Black',sans-serif;line-height:1;}
+    #lobby .ticket-card-icon{font-size:46px;filter:drop-shadow(0 3px 5px rgba(0,0,0,0.7));}
+    #lobby .ticket-card-count{font-size:74px;color:#fff;text-shadow:0 4px 0 #4a3000,0 0 22px rgba(255,210,58,0.7);}
+    #lobby .ticket-card-max{font-size:30px;color:rgba(255,255,255,0.45);}
+    #lobby .ticket-card-regen{margin-top:6px;font-size:12px;color:#7be0d8;letter-spacing:2px;}
+    #lobby .ticket-card-regen.full{color:rgba(255,255,255,0.5);}
+
+    /* Big PLAY button */
+    #lobby .lobby-play-row{margin:12px 0 28px;display:flex;justify-content:center;}
+    #lobby .lobby-play-btn{display:inline-flex;align-items:baseline;gap:10px;padding:20px 50px;font-family:Impact,'Arial Black',sans-serif;border:none;cursor:pointer;border-radius:18px;background:linear-gradient(180deg,#fff298 0%,#ffd23a 35%,#ff8c1a 100%);color:#3a1500;letter-spacing:3px;box-shadow:0 8px 0 #6a3a00,0 14px 28px rgba(255,140,30,0.45),inset 0 2px 0 rgba(255,255,255,0.6);animation:lobbyPlayPulse 1.4s ease-in-out infinite;transition:transform 0.12s ease,box-shadow 0.12s ease,filter 0.18s ease;}
+    #lobby .lobby-play-btn:active{transform:translateY(4px);box-shadow:0 4px 0 #6a3a00,0 8px 16px rgba(255,140,30,0.4),inset 0 2px 0 rgba(255,255,255,0.6);}
+    #lobby .lobby-play-btn:disabled{animation:none;filter:grayscale(0.6);opacity:0.55;cursor:not-allowed;}
+    #lobby .play-arrow{font-size:24px;}
+    #lobby .play-label{font-size:34px;}
+    #lobby .play-cost{font-size:14px;letter-spacing:2px;opacity:0.85;}
+    @keyframes lobbyPlayPulse{0%,100%{transform:translateY(0);}50%{transform:translateY(-4px);}}
+
+    /* Action card row */
+    #lobby .lobby-actions{display:flex;gap:14px;width:100%;justify-content:center;padding:0 6px;}
+    #lobby .lobby-action-card{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;flex:1;max-width:150px;padding:14px 8px 12px;background:linear-gradient(180deg,#1f3a6b 0%,#0e1d3a 100%);border:2px solid rgba(255,255,255,0.22);border-radius:14px;cursor:pointer;color:#fff;font-family:Impact,'Arial Black',sans-serif;letter-spacing:1.5px;box-shadow:0 5px 0 rgba(0,0,0,0.5),0 10px 18px rgba(0,0,0,0.45),inset 0 1px 0 rgba(255,255,255,0.14);transition:transform 0.12s ease,box-shadow 0.12s ease;}
+    #lobby .lobby-action-card:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(0,0,0,0.5),0 5px 10px rgba(0,0,0,0.45),inset 0 1px 0 rgba(255,255,255,0.14);}
+    #lobby .lobby-action-card:disabled{opacity:0.5;cursor:not-allowed;filter:grayscale(0.65);}
+    #lobby .lobby-action-card.tv{border-color:rgba(123,224,216,0.5);}
+    #lobby .lobby-action-card.lb{border-color:rgba(255,210,58,0.55);}
+    #lobby .action-icon{font-size:36px;line-height:1;filter:drop-shadow(0 3px 5px rgba(0,0,0,0.55));}
+    #lobby .action-label{font-size:12px;color:#fff;}
+    #lobby .action-reward{font-size:12px;color:#7be0d8;letter-spacing:1px;}
+    #lobby .lobby-action-card.lb .action-reward{color:#ffd23a;}
+
+    #lobby .lobby-version{position:absolute;bottom:8px;font-size:9px;color:rgba(255,255,255,0.32);letter-spacing:2px;}
 
     /* --- Matchmaking --- */
     #matchmaking .mm-status{font-size:16px;letter-spacing:4px;color:#7be0d8;margin-bottom:18px;text-shadow:0 0 12px rgba(123,224,216,0.6);}
@@ -194,7 +222,7 @@
     #ads-overlay .ad-actions.show{display:block;}
 
   </style>
-  <script type="module" crossorigin src="./assets/index-d3yM4hku.js"></script>
+  <script type="module" crossorigin src="./assets/index-Ci4ZYF8n.js"></script>
   <link rel="stylesheet" crossorigin href="./assets/index-BA0TRR_u.css">
 </head>
 <body>
@@ -305,40 +333,63 @@
     <div id="ver-tag"></div>
   </div>
 
-  <!-- Phase 2 metagame overlays: lobby, matchmaking, leaderboard, fake ad. -->
+  <!-- Phase 3 lobby — arcade vibe (Clash Royale-style polish) -->
   <div id="lobby" class="scene-overlay">
-    <div class="lobby-header">
-      <div class="lobby-title">⚽ SOCCER 1×1</div>
-      <div class="lobby-profile">⚽ CAREER: <span class="profile-num" id="lobby-career">0</span></div>
-    </div>
-
-    <div class="lobby-tickets">
-      <div class="lobby-tickets-row">
-        <span class="lobby-tickets-icon">🎫</span>
-        <span class="lobby-tickets-count" id="lobby-tickets">5</span>
-        <span class="lobby-tickets-max">/10</span>
+    <!-- Top bar: logo + stat chips -->
+    <div class="lobby-topbar">
+      <div class="lobby-brand">
+        <div class="lobby-brand-icon">⚽</div>
+        <div class="lobby-brand-text">SOCCER<span>1×1</span></div>
       </div>
-      <div class="lobby-regen" id="lobby-regen">next in 30:00</div>
+      <div class="lobby-stats">
+        <div class="lobby-chip career">
+          <span class="lobby-chip-icon">⚽</span>
+          <span class="lobby-chip-value" id="lobby-career">0</span>
+        </div>
+        <div class="lobby-chip rank">
+          <span class="lobby-chip-icon">🏆</span>
+          <span class="lobby-chip-value" id="lobby-rank-badge">#--</span>
+        </div>
+      </div>
     </div>
 
+    <!-- Hero card: tickets -->
+    <div class="lobby-hero">
+      <div class="lobby-ticket-card">
+        <div class="ticket-card-label">TICKETS</div>
+        <div class="ticket-card-main">
+          <span class="ticket-card-icon">🎫</span>
+          <span class="ticket-card-count" id="lobby-tickets">5</span>
+          <span class="ticket-card-max">/10</span>
+        </div>
+        <div class="ticket-card-regen" id="lobby-regen">next in 30:00</div>
+      </div>
+    </div>
+
+    <!-- Big PLAY button -->
     <div class="lobby-play-row">
-      <button class="so-btn so-btn-primary" id="lobby-play">▶ PLAY (-1🎫)</button>
+      <button class="lobby-play-btn" id="lobby-play">
+        <span class="play-arrow">▶</span>
+        <span class="play-label">PLAY</span>
+        <span class="play-cost">-1 🎫</span>
+      </button>
     </div>
 
+    <!-- Action card row -->
     <div class="lobby-actions">
-      <button class="lobby-action tv" id="lobby-ads">
-        <span class="icon">📺</span>
-        <span class="label">WATCH AD</span>
-        <span class="badge" id="lobby-ads-badge">+1 🎫</span>
+      <button class="lobby-action-card tv" id="lobby-ads">
+        <span class="action-icon">📺</span>
+        <span class="action-label">WATCH AD</span>
+        <span class="action-reward" id="lobby-ads-badge">+1 🎫</span>
       </button>
-      <button class="lobby-action" id="lobby-leaderboard">
-        <span class="icon">🏆</span>
-        <span class="label">RANKING</span>
-        <span class="badge" id="lobby-rank-badge">#--</span>
+      <button class="lobby-action-card lb" id="lobby-leaderboard">
+        <span class="action-icon">🏆</span>
+        <span class="action-label">LEADERBOARD</span>
+        <span class="action-reward">VIEW</span>
       </button>
     </div>
 
-    <div class="lobby-version" id="lobby-version">soccer 1×1 · phase 2 preview</div>
+    <div class="lobby-version" id="lobby-version">soccer 1×1 · v41</div>
   </div>
 
   <div id="matchmaking" class="scene-overlay">
