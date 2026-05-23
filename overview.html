@@ -1,0 +1,479 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Soccer 1×1 — Project Overview</title>
+  <style>
+    :root{
+      --bg:#06112a;
+      --bg2:#0c1d3a;
+      --panel:#13234a;
+      --panel-2:#1a2e5e;
+      --border:rgba(255,255,255,0.08);
+      --text:#e5e9f0;
+      --text-dim:rgba(229,233,240,0.65);
+      --text-soft:rgba(229,233,240,0.45);
+      --green:#3ee580;
+      --yellow:#ffd23a;
+      --red:#ff5050;
+      --blue:#5fb0ff;
+      --red-bg:rgba(255,80,80,0.12);
+      --green-bg:rgba(62,229,128,0.12);
+      --yellow-bg:rgba(255,210,58,0.12);
+      --blue-bg:rgba(95,176,255,0.12);
+    }
+    *{box-sizing:border-box;}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.5;}
+    body{background:radial-gradient(ellipse at top,#1a3c7a 0%,var(--bg) 50%,var(--bg) 100%);min-height:100vh;}
+    .container{max-width:1400px;margin:0 auto;padding:32px 24px;}
+    header{text-align:center;margin-bottom:48px;}
+    .header-logo{display:inline-flex;align-items:center;gap:14px;}
+    .header-logo img{width:72px;height:72px;border-radius:18px;box-shadow:0 4px 24px rgba(0,0,0,0.4),0 0 0 2px rgba(255,255,255,0.06);}
+    h1{font-family:Impact,'Arial Black',sans-serif;font-size:42px;letter-spacing:2.5px;margin:0;line-height:1.05;color:#fff;text-shadow:0 2px 0 rgba(0,0,0,0.5);}
+    h1 span{display:block;font-size:14px;letter-spacing:6px;color:#9ec3ff;margin-top:4px;font-weight:500;}
+    .header-sub{margin-top:18px;font-size:14px;color:var(--text-dim);max-width:680px;margin-left:auto;margin-right:auto;}
+    .header-meta{display:flex;justify-content:center;gap:24px;margin-top:18px;font-size:12px;color:var(--text-soft);flex-wrap:wrap;}
+    .header-meta span{padding:6px 14px;border:1px solid var(--border);border-radius:20px;background:rgba(255,255,255,0.02);}
+
+    .legend{display:flex;justify-content:center;gap:18px;margin:36px 0 24px;flex-wrap:wrap;}
+    .legend-chip{display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:18px;font-size:12px;letter-spacing:1px;font-weight:600;}
+    .legend-chip .dot{width:10px;height:10px;border-radius:50%;}
+    .chip-green{background:var(--green-bg);color:var(--green);}
+    .chip-yellow{background:var(--yellow-bg);color:var(--yellow);}
+    .chip-red{background:var(--red-bg);color:var(--red);}
+    .chip-blue{background:var(--blue-bg);color:var(--blue);}
+    .chip-green .dot{background:var(--green);box-shadow:0 0 8px var(--green);}
+    .chip-yellow .dot{background:var(--yellow);box-shadow:0 0 8px var(--yellow);}
+    .chip-red .dot{background:var(--red);box-shadow:0 0 8px var(--red);}
+    .chip-blue .dot{background:var(--blue);box-shadow:0 0 8px var(--blue);}
+
+    section.zone{margin-bottom:48px;}
+    .zone-header{display:flex;align-items:baseline;justify-content:space-between;border-bottom:1px solid var(--border);padding-bottom:10px;margin-bottom:20px;}
+    .zone-title{font-family:Impact,'Arial Black',sans-serif;font-size:22px;letter-spacing:2.5px;color:#fff;margin:0;}
+    .zone-sub{font-size:12px;color:var(--text-soft);letter-spacing:1.5px;}
+
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px;}
+    .grid-wide{grid-template-columns:repeat(auto-fill,minmax(360px,1fr));}
+
+    .card{
+      background:linear-gradient(180deg,var(--panel) 0%,var(--bg2) 100%);
+      border:1px solid var(--border);
+      border-radius:14px;
+      padding:18px 18px 16px;
+      position:relative;
+      overflow:hidden;
+      transition:transform 0.15s ease, border-color 0.15s ease;
+    }
+    .card:hover{border-color:rgba(255,255,255,0.18);transform:translateY(-2px);}
+    .card.done{border-left:4px solid var(--green);}
+    .card.blocked{border-left:4px solid var(--yellow);}
+    .card.missing{border-left:4px solid var(--red);}
+    .card.info{border-left:4px solid var(--blue);}
+
+    .card-header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:8px;}
+    .card-title{font-family:Impact,'Arial Black',sans-serif;font-size:14px;letter-spacing:1.5px;color:#fff;line-height:1.25;}
+    .card-status{font-size:10px;letter-spacing:1.5px;font-weight:700;padding:3px 8px;border-radius:10px;white-space:nowrap;}
+    .card-status.done{background:var(--green-bg);color:var(--green);}
+    .card-status.blocked{background:var(--yellow-bg);color:var(--yellow);}
+    .card-status.missing{background:var(--red-bg);color:var(--red);}
+    .card-status.info{background:var(--blue-bg);color:var(--blue);}
+
+    .card-body{font-size:13px;color:var(--text-dim);line-height:1.55;}
+    .card-body code{background:rgba(255,255,255,0.06);padding:1px 6px;border-radius:4px;font-size:11.5px;color:#a8c2ff;}
+    .card a{color:var(--blue);text-decoration:none;font-weight:600;}
+    .card a:hover{text-decoration:underline;}
+
+    .card-meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;}
+    .meta-tag{font-size:10px;letter-spacing:0.5px;background:rgba(255,255,255,0.05);color:var(--text-soft);padding:3px 8px;border-radius:8px;}
+
+    .asset-img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:10px;border:1px solid var(--border);margin-bottom:10px;background:#000;}
+    .asset-img.wide{aspect-ratio:2/1;}
+    .asset-img.phone{aspect-ratio:9/16;}
+    .asset-img.endcard{aspect-ratio:1/1;}
+
+    .video-card video{width:100%;border-radius:10px;border:1px solid var(--border);margin-bottom:8px;background:#000;}
+
+    .stat-row{display:flex;gap:10px;font-size:12px;color:var(--text-soft);margin-top:8px;}
+    .stat-row strong{color:var(--text);font-weight:600;}
+
+    .funnel{display:flex;align-items:center;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:20px;padding:18px;background:rgba(255,255,255,0.02);border-radius:14px;border:1px dashed var(--border);}
+    .funnel-step{display:flex;flex-direction:column;align-items:center;gap:6px;min-width:90px;}
+    .funnel-step .num{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;}
+    .funnel-step.done .num{background:var(--green);color:#06112a;}
+    .funnel-step.blocked .num{background:var(--yellow);color:#06112a;}
+    .funnel-step.missing .num{background:var(--red);color:#fff;}
+    .funnel-step .lbl{font-size:11px;letter-spacing:1px;font-weight:700;color:var(--text);text-align:center;}
+    .funnel-arrow{color:var(--text-soft);font-size:18px;}
+
+    footer{text-align:center;margin:60px 0 30px;font-size:11px;color:var(--text-soft);letter-spacing:1px;}
+    footer a{color:var(--blue);text-decoration:none;}
+
+    @media (max-width:680px){
+      h1{font-size:30px;letter-spacing:1.5px;}
+      .zone-title{font-size:18px;}
+      .grid{grid-template-columns:1fr;}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <header>
+      <div class="header-logo">
+        <img src="overview-assets/icon.png" alt="Soccer 1×1 icon" />
+        <h1>SOCCER 1×1<span>Project Overview · Hackathon 37</span></h1>
+      </div>
+      <div class="header-sub">
+        Visão macro de tudo que foi feito, o que tá em andamento e o que ainda falta — pra você olhar no relance e mostrar pro chefe.
+      </div>
+      <div class="header-meta">
+        <span>Group 42 · Marco Furtado</span>
+        <span>Apresentação · seg 25/05 · 17h BRT</span>
+        <span>Capacitor 7 · TypeScript + Three.js</span>
+      </div>
+    </header>
+
+    <div class="legend">
+      <span class="legend-chip chip-green"><span class="dot"></span>FEITO</span>
+      <span class="legend-chip chip-blue"><span class="dot"></span>INFO</span>
+      <span class="legend-chip chip-yellow"><span class="dot"></span>BLOQUEADO / ESPERANDO</span>
+      <span class="legend-chip chip-red"><span class="dot"></span>FALTA FAZER</span>
+    </div>
+
+    <div class="funnel">
+      <div class="funnel-step done"><div class="num">✓</div><div class="lbl">CÓDIGO</div></div>
+      <div class="funnel-arrow">→</div>
+      <div class="funnel-step done"><div class="num">✓</div><div class="lbl">BUILD CI</div></div>
+      <div class="funnel-arrow">→</div>
+      <div class="funnel-step done"><div class="num">✓</div><div class="lbl">ASSETS</div></div>
+      <div class="funnel-arrow">→</div>
+      <div class="funnel-step done"><div class="num">✓</div><div class="lbl">COPY + PRIVACY</div></div>
+      <div class="funnel-arrow">→</div>
+      <div class="funnel-step done"><div class="num">✓</div><div class="lbl">UA VIDEO</div></div>
+      <div class="funnel-arrow">→</div>
+      <div class="funnel-step blocked"><div class="num">~</div><div class="lbl">STORE SETUP</div></div>
+      <div class="funnel-arrow">→</div>
+      <div class="funnel-step missing"><div class="num">5</div><div class="lbl">SUBMIT</div></div>
+    </div>
+
+    <!-- =================================================================== -->
+    <section class="zone">
+      <div class="zone-header">
+        <h2 class="zone-title">🎮 GAMEPLAY (o que o jogador vê)</h2>
+        <span class="zone-sub">v48-store-ready</span>
+      </div>
+      <div class="grid">
+        <div class="card done">
+          <div class="card-header"><div class="card-title">LOBBY VOXEL</div><span class="card-status done">FEITO</span></div>
+          <div class="card-body">
+            Personagem voxel no palco com bola ao pé. Drag-to-rotate com momentum. Topo: SOCCER 1×1 logo + chips de moedas e ranking. Pílula TEST MODE central. PLAY amarelão + WATCH AD / LEADERBOARD action cards.
+          </div>
+          <div class="card-meta"><span class="meta-tag">drag-to-rotate</span><span class="meta-tag">tickets</span><span class="meta-tag">leaderboard 50 bots</span></div>
+        </div>
+
+        <div class="card done">
+          <div class="card-header"><div class="card-title">PARTIDAS 60S</div><span class="card-status done">FEITO</span></div>
+          <div class="card-body">
+            Matchmaking em ~3s, partida exata de 60 segundos. Últimos 10s = <code>crunch time</code> com overlay pulsando vermelho. Joystick flutuante + swipe-to-kick + tap-to-shield + walk-in goals.
+          </div>
+          <div class="card-meta"><span class="meta-tag">60s</span><span class="meta-tag">crunch time</span><span class="meta-tag">walk-in goal</span></div>
+        </div>
+
+        <div class="card done">
+          <div class="card-header"><div class="card-title">AUDIO MIX</div><span class="card-status done">FEITO</span></div>
+          <div class="card-body">
+            Apito do início e fim, narrador "GOOOOL!", torcida de fundo loop, hit/save SFX, victory cheer. 6 SFX gerados via Layer AI (ElevenLabs Sound Effects).
+          </div>
+          <div class="card-meta"><span class="meta-tag">6 SFX</span><span class="meta-tag">ambient loop</span></div>
+        </div>
+
+        <div class="card done">
+          <div class="card-header"><div class="card-title">SETTINGS + NOTIFICAÇÕES</div><span class="card-status done">FEITO</span></div>
+          <div class="card-body">
+            ⚙ Sound toggle (persistido), versão, RESET CAREER PROGRESS. 🔔 4 notificações com dot vermelho desaparecendo após open. Funcionais, não decorativos.
+          </div>
+        </div>
+
+        <div class="card done">
+          <div class="card-header"><div class="card-title">FIM DE PARTIDA</div><span class="card-status done">FEITO</span></div>
+          <div class="card-body">
+            Endcards VICTORY / DEFEAT / DRAW com score, +N CAREER GOALS, botões LOBBY + PLAY AGAIN. Persistência no localStorage.
+          </div>
+        </div>
+
+        <div class="card info">
+          <div class="card-header"><div class="card-title">CONFIG PRÉ-RELEASE</div><span class="card-status info">CHECADO</span></div>
+          <div class="card-body">
+            <code>DEBUG_INFINITE_TICKETS=false</code> ✓ economia real. ATT prompt iOS wireado. PrivacyInfo.xcprivacy registrado no Xcode project. AAB build script criado.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <section class="zone">
+      <div class="zone-header">
+        <h2 class="zone-title">🎨 ARTES (o que vai nas lojas)</h2>
+        <span class="zone-sub">via Layer AI — GPT Image 2 + Imagen 4</span>
+      </div>
+      <div class="grid">
+        <div class="card done">
+          <div class="card-header"><div class="card-title">APP ICON</div><span class="card-status done">FEITO</span></div>
+          <img class="asset-img" src="overview-assets/icon.png" alt="App icon" />
+          <div class="card-body">
+            Voxel vermelho × azul disputando bola, fundo split duotone. Versões 1024 (Apple, sem alpha) + 512 (Google).
+          </div>
+        </div>
+
+        <div class="card done">
+          <div class="card-header"><div class="card-title">FEATURE GRAPHIC</div><span class="card-status done">FEITO</span></div>
+          <img class="asset-img wide" src="overview-assets/feature.png" alt="Feature graphic" />
+          <div class="card-body">
+            Banner 1024×500 com logo "1×1 SOCCER" chunky pixelart, campo arcade isométrico, dois jogadores. Pro Google Play Store.
+          </div>
+        </div>
+
+        <div class="card done video-card">
+          <div class="card-header"><div class="card-title">UA VIDEO</div><span class="card-status done">FEITO</span></div>
+          <video controls preload="metadata" poster="overview-assets/endcard.png">
+            <source src="overview-assets/ua-video.mp4" type="video/mp4">
+          </video>
+          <div class="card-body">
+            4:33 min de gameplay + endcard. Captura via canvas.captureStream(30fps). Marketing usa pra editar o trailer de 30s.
+          </div>
+          <div class="card-meta"><span class="meta-tag">4:33 min</span><span class="meta-tag">30 fps</span><span class="meta-tag">19 MB</span></div>
+        </div>
+
+        <div class="card done">
+          <div class="card-header"><div class="card-title">END CARD</div><span class="card-status done">FEITO</span></div>
+          <img class="asset-img endcard" src="overview-assets/endcard.png" alt="End card" />
+          <div class="card-body">
+            CTA "DOWNLOAD NOW" + logo SOCCER 1×1 + voxel chutando bola. Concatenado nos 3s finais do UA video.
+          </div>
+        </div>
+
+        <div class="card done">
+          <div class="card-header"><div class="card-title">SCREENSHOT 1 — LOBBY</div><span class="card-status done">FEITO</span></div>
+          <img class="asset-img phone" src="overview-assets/screen-lobby.png" alt="Screenshot lobby" />
+          <div class="card-body">1080×1920 (Google) / 1242×2208 (Apple)</div>
+        </div>
+
+        <div class="card done">
+          <div class="card-header"><div class="card-title">SCREENSHOT 2 — GAMEPLAY</div><span class="card-status done">FEITO</span></div>
+          <img class="asset-img phone" src="overview-assets/screen-gameplay.png" alt="Screenshot gameplay" />
+          <div class="card-body">Mid-match, scoreboard YOU vs RIVAL</div>
+        </div>
+
+        <div class="card done">
+          <div class="card-header"><div class="card-title">SCREENSHOT 3 — VICTORY</div><span class="card-status done">FEITO</span></div>
+          <img class="asset-img phone" src="overview-assets/screen-victory.png" alt="Screenshot victory" />
+          <div class="card-body">Endcard VICTORY 5×2 com career goals</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <section class="zone">
+      <div class="zone-header">
+        <h2 class="zone-title">📝 STORE COPY + PRIVACY</h2>
+        <span class="zone-sub">gerado pelo plugin hackathon-submission-helper</span>
+      </div>
+      <div class="grid">
+        <div class="card done">
+          <div class="card-header"><div class="card-title">EN + PT-BR LISTING</div><span class="card-status done">FEITO</span></div>
+          <div class="card-body">
+            Título, subtitle, short + long description, keywords, promotional text, what's new — em <strong>2 idiomas</strong>, com char limits validados pra Apple + Google.
+            <br><br><code>submission/copy/en-US.json</code><br><code>submission/copy/pt-BR.json</code>
+          </div>
+        </div>
+
+        <div class="card done">
+          <div class="card-header"><div class="card-title">ASO KEYWORDS</div><span class="card-status done">FEITO</span></div>
+          <div class="card-body">
+            Apple 100-char keyword field + Google density analysis. Root sets, mechanic tails, visual tails, competitor scan list. EN + PT-BR.
+            <br><br><code>submission/aso/keywords-{en-US,pt-BR}.md</code>
+          </div>
+        </div>
+
+        <div class="card done">
+          <div class="card-header"><div class="card-title">PRIVACY APPLE</div><span class="card-status done">FEITO</span></div>
+          <div class="card-body">
+            App Store Connect "App Privacy" answers em JSON. Mapeia Singular + Wildlife Platform SDK → Device ID (tracking), User ID, Product Interaction, Crash Data.
+            <br><br><code>submission/privacy-apple.json</code>
+          </div>
+        </div>
+
+        <div class="card done">
+          <div class="card-header"><div class="card-title">PRIVACY GOOGLE</div><span class="card-status done">FEITO</span></div>
+          <div class="card-body">
+            Play Console "Data Safety" answers em JSON. Inclui security practices (encrypted in transit, deletion request).
+            <br><br><code>submission/privacy-google.json</code>
+          </div>
+        </div>
+
+        <div class="card done">
+          <div class="card-header"><div class="card-title">PRIVACY POLICY URL</div><span class="card-status done">ACHADO</span></div>
+          <div class="card-body">
+            Wildlife / Texas PFCG têm URL pública:<br>
+            <a href="https://www.texaspfcg.com/privacy" target="_blank">texaspfcg.com/privacy</a>
+            <br><br>Cola essa URL no Play Console + App Store Connect.
+          </div>
+        </div>
+
+        <div class="card done">
+          <div class="card-header"><div class="card-title">SUBMISSION RUNBOOK</div><span class="card-status done">FEITO</span></div>
+          <div class="card-body">
+            Documento mestre com TODOS os passos pra você seguir nos consoles, copy-paste field by field. Inclui exatamente onde clicar.
+            <br><br><code>submission/SUBMISSION_RUNBOOK.md</code>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <section class="zone">
+      <div class="zone-header">
+        <h2 class="zone-title">🚀 BUILD + DEPLOY</h2>
+        <span class="zone-sub">3 lugares onde o jogo já está rodando</span>
+      </div>
+      <div class="grid grid-wide">
+        <div class="card done">
+          <div class="card-header"><div class="card-title">🌐 GITHUB PAGES (WEB)</div><span class="card-status done">LIVE</span></div>
+          <div class="card-body">
+            Build de produção em ar 24/7. Pra qualquer um testar de qualquer browser.
+            <br><br><a href="https://marcofurtado-hub.github.io/soccer-1x1-capacitor/?v48" target="_blank">marcofurtado-hub.github.io/soccer-1x1-capacitor</a>
+          </div>
+        </div>
+
+        <div class="card done">
+          <div class="card-header"><div class="card-title">📱 ANDROID APK (signed)</div><span class="card-status done">PRONTO</span></div>
+          <div class="card-body">
+            Pipeline Wildlife GitLab passou. APK assinado de 13.3 MiB nos artifacts.
+            <br><br><a href="https://git.topfreegames.com/hackathon37/soccer1x1-37/-/jobs/22585286/artifacts/browse/Build/Artifacts/" target="_blank">Baixar app-release.apk</a>
+          </div>
+          <div class="card-meta"><span class="meta-tag">13.3 MiB</span><span class="meta-tag">PKCS12 signed</span></div>
+        </div>
+
+        <div class="card done">
+          <div class="card-header"><div class="card-title">🍎 iOS IPA (signed)</div><span class="card-status done">PRONTO</span></div>
+          <div class="card-body">
+            Mesma pipeline. IPA assinado com cert Development da Wildlife.
+            <br><br>(precisa instalar via TestFlight quando o app for criado no App Store Connect)
+          </div>
+        </div>
+
+        <div class="card done">
+          <div class="card-header"><div class="card-title">📦 AAB (Google Play)</div><span class="card-status done">PRONTO</span></div>
+          <div class="card-body">
+            Android App Bundle 13.1 MiB no mesmo artifact. É o formato que o Play Console exige pra publicação.
+            <br><br><code>npm run aab:production</code> também roda local se quiser regerar.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <section class="zone">
+      <div class="zone-header">
+        <h2 class="zone-title">🟡 BLOQUEADO (sem suporte Wildlife agora)</h2>
+        <span class="zone-sub">não bloqueia a demo de segunda</span>
+      </div>
+      <div class="grid grid-wide">
+        <div class="card blocked">
+          <div class="card-header"><div class="card-title">PLAY CONSOLE — CRIAR APP</div><span class="card-status blocked">PEDIR</span></div>
+          <div class="card-body">
+            Admin Texas precisa criar o app com bundle <code>com.hackathon37.group42.soccer1x1</code> e te dar acesso de Developer/Admin.
+            <br><br>Depois disso: 30 min comigo no Chrome pra preencher formulários do <code>submission/SUBMISSION_RUNBOOK.md</code>.
+          </div>
+        </div>
+
+        <div class="card blocked">
+          <div class="card-header"><div class="card-title">APP STORE CONNECT — TEAM TEXAS</div><span class="card-status blocked">PEDIR</span></div>
+          <div class="card-body">
+            Hoje você tá no team Arizona. Precisa de acesso ao team Texas (94JU5975PM) + app criado lá com mesmo bundle.
+            <br><br>Mesma rotina depois — 30 min comigo no Chrome.
+          </div>
+        </div>
+
+        <div class="card blocked">
+          <div class="card-header"><div class="card-title">FIREBASE DISTRIBUTION</div><span class="card-status blocked">OPCIONAL</span></div>
+          <div class="card-body">
+            Variável <code>FIREBASE_DISTRIBUTION_PROJECT_ID</code> não foi setada pelo Portal. Pode <strong>ignorar</strong> — o APK já tá nos artifacts do GitLab pra você baixar.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <section class="zone">
+      <div class="zone-header">
+        <h2 class="zone-title">🔴 FALTA VOCÊ FAZER</h2>
+        <span class="zone-sub">prioridade pra apresentação de segunda</span>
+      </div>
+      <div class="grid grid-wide">
+        <div class="card missing">
+          <div class="card-header"><div class="card-title">1. INSTALAR APK NO CELULAR</div><span class="card-status missing">FAZER HOJE</span></div>
+          <div class="card-body">
+            Baixar <a href="https://git.topfreegames.com/hackathon37/soccer1x1-37/-/jobs/22585286/artifacts/browse/Build/Artifacts/" target="_blank">app-release.apk</a> → transferir pro Android via USB / AirDrop / Drive → instalar → jogar 5 min pra confirmar que tá tudo OK nativo.
+          </div>
+        </div>
+
+        <div class="card missing">
+          <div class="card-header"><div class="card-title">2. TREINAR A DEMO</div><span class="card-status missing">FAZER</span></div>
+          <div class="card-body">
+            Pitch já tá escrito em <code>PITCH.md</code>. ~4 min cronometrados: hook → problema → 3 constraints → demo ao vivo (jogar 1 partida) → tech → what's next.
+            <br><br>Pratica 2-3 vezes antes da segunda.
+          </div>
+        </div>
+
+        <div class="card missing">
+          <div class="card-header"><div class="card-title">3. DESCOBRIR FORMATO EXATO DO PITCH</div><span class="card-status missing">~5 MIN</span></div>
+          <div class="card-body">
+            Manual da Wildlife <strong>não documenta</strong> o formato. Provavelmente foi falado no Opening do 20/05 (você foi?). Pergunta pra um colega de outro grupo do hackathon ou assume 4-5 min + Q&A (padrão Wildlife).
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <section class="zone">
+      <div class="zone-header">
+        <h2 class="zone-title">📚 ARQUIVOS DE REFERÊNCIA</h2>
+        <span class="zone-sub">tudo no projeto local</span>
+      </div>
+      <div class="grid">
+        <div class="card info">
+          <div class="card-title">📂 store-assets/final/</div>
+          <div class="card-body">Artes finais separadas por plataforma — Apple (1242×2208 + icon 1024) e Google (1080×1920 + icon 512 + feature 1024×500).</div>
+        </div>
+        <div class="card info">
+          <div class="card-title">📂 submission/</div>
+          <div class="card-body">Voice card, copy JSON, ASO keywords, Privacy declarations, Submission Runbook. Tudo que o plugin <code>hackathon-submission-helper</code> geraria.</div>
+        </div>
+        <div class="card info">
+          <div class="card-title">📂 store-assets/ua-video/</div>
+          <div class="card-body">UA gameplay video 4:33 min (sem áudio — marketing edita) + endcard PNG 1024×1024 com CTA Download Now.</div>
+        </div>
+        <div class="card info">
+          <div class="card-title">📄 PITCH.md</div>
+          <div class="card-body">Script da apresentação — 7 slides com talking points + backup pra Q&A técnica.</div>
+        </div>
+        <div class="card info">
+          <div class="card-title">📄 CLAUDE.md</div>
+          <div class="card-body">Memória do projeto pra Claude — Phase 1/2 status, port gotchas, arquitetura, quick commands.</div>
+        </div>
+        <div class="card info">
+          <div class="card-title">🔗 GitLab Wildlife</div>
+          <div class="card-body"><a href="https://git.topfreegames.com/hackathon37/soccer1x1-37" target="_blank">hackathon37/soccer1x1-37</a> — código completo pushed, pipeline #3750037 verde.</div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      Gerado automaticamente · <a href="https://marcofurtado-hub.github.io/soccer-1x1-capacitor/?v48" target="_blank">jogar online</a> · Hackathon 37 · Group 42
+    </footer>
+
+  </div>
+</body>
+</html>
