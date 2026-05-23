@@ -411,6 +411,126 @@
     <!-- =================================================================== -->
     <section class="zone">
       <div class="zone-header">
+        <h2 class="zone-title">📚 DOCS WILDLIFE DESCOBERTOS (links escondidos no manual)</h2>
+        <span class="zone-sub">links que estavam mascarados nas leituras anteriores</span>
+      </div>
+      <div class="grid grid-wide">
+        <div class="card info">
+          <div class="card-header"><div class="card-title">📦 "Packaging for Hackathon" — slides oficiais</div><span class="card-status info">REGRAS</span></div>
+          <div class="card-body">
+            Deck oficial com TODAS as regras de packaging Apple/Google: dimensões corretas, safe zone, "AVOID Download now" (Apple rejeita!), captions sugeridas, templates.
+            <br><br><a href="https://docs.google.com/presentation/d/1ex2jorDqyGPYS2ooCTa5rHGQjf8r3DKWqGs_ANNzTdc/edit?usp=sharing" target="_blank">Abrir Packaging deck →</a>
+            <br><br>📞 Dúvidas: <strong>@julia.nogueira</strong> no Slack.
+          </div>
+        </div>
+        <div class="card info">
+          <div class="card-header"><div class="card-title">📊 ASO Setup Template (Sheets)</div><span class="card-status info">PLANILHA</span></div>
+          <div class="card-body">
+            Template oficial Wildlife pra ASO. Vale comparar com o que a gente já gerou em <code>submission/aso/</code>.
+            <br><br><a href="https://docs.google.com/spreadsheets/d/1lRjoCXkGmtTrRnrS3mC5roS7e2Y_cXiyL3325okm6rQ/edit" target="_blank">Abrir ASO Sheet →</a>
+          </div>
+        </div>
+        <div class="card info">
+          <div class="card-header"><div class="card-title">🛡️ Data Safety wiki (Wildlife Confluence)</div><span class="card-status info">WIKI</span></div>
+          <div class="card-body">
+            Página interna Wildlife com as respostas padrão pro form Data Safety do Google Play.
+            <br><br><a href="https://wildlifestudios.atlassian.net/wiki/spaces/FIN/pages/13600637/Google+Play+Data+Safety+Section" target="_blank">Abrir wiki →</a>
+          </div>
+        </div>
+        <div class="card info">
+          <div class="card-header"><div class="card-title">🖼️ Placeholder Images (Drive)</div><span class="card-status info">DRIVE</span></div>
+          <div class="card-body">
+            Pasta com imagens placeholder caso falte arte. Visual elements (arrows, sparkles) pra usar em screenshots.
+            <br><br><a href="https://drive.google.com/drive/u/1/folders/1vG9pdAtdxmHCnfs51YzuEJ68R_G-DQ6O" target="_blank">Abrir pasta Drive →</a>
+          </div>
+        </div>
+        <div class="card info">
+          <div class="card-header"><div class="card-title">🎬 Video Tutorial — Play Store setup</div><span class="card-status info">VÍDEO</span></div>
+          <div class="card-body">
+            Vídeo passo-a-passo do "Setup Your App" no Play Console. Útil quando der pra acessar o app na conta Texas.
+            <br><br><a href="https://drive.google.com/file/d/10oal0nuF0S-jUYr0kWe-MK8i2g1ZAixD/view" target="_blank">Assistir vídeo →</a>
+          </div>
+        </div>
+        <div class="card info">
+          <div class="card-header"><div class="card-title">📂 Drive de Assets Wildlife</div><span class="card-status info">DRIVE</span></div>
+          <div class="card-body">
+            "Download the images from this drive" — referenciado pra screenshots. Pode ter overlays, mock UI elements.
+            <br><br><a href="https://drive.google.com/drive/folders/1ZBVXQoiacTUqCrVdT0QBbl3x3buPUkwD" target="_blank">Abrir Drive →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <section class="zone">
+      <div class="zone-header">
+        <h2 class="zone-title">🔍 AUDIT — assets vs guidelines Wildlife</h2>
+        <span class="zone-sub">passamos no Packaging deck — eis o que ajustar</span>
+      </div>
+      <div class="grid grid-wide">
+        <div class="card blocked">
+          <div class="card-header"><div class="card-title">SCREENSHOTS — iPhone 6.5"/6.9"</div><span class="card-status blocked">REVISAR</span></div>
+          <div class="card-body">
+            Hoje temos 1242×2208 (iPhone 5.5", legacy). Wildlife pede:
+            <ul style="margin:8px 0 0 16px;padding:0;color:var(--text-dim);">
+              <li>iPhone 6.5": 1284×2778</li>
+              <li>iPhone 6.9": 1320×2868</li>
+              <li>iPad: 2048×2732</li>
+              <li>Android: 1080×1920 ✓ já temos</li>
+            </ul>
+            🛠️ Posso re-capturar nesses tamanhos novos em ~10 min se quiser.
+          </div>
+        </div>
+
+        <div class="card blocked">
+          <div class="card-header"><div class="card-title">SCREENSHOTS — Faltam CAPTIONS</div><span class="card-status blocked">SUGERIDO</span></div>
+          <div class="card-body">
+            Wildlife sugere texto curto em cima: "Defeat epic bosses" / "Build your army". Hoje nossos screenshots são gameplay puro sem overlay de copy.
+            <br><br>Pra Soccer 1×1 caberia:
+            <ul style="margin:8px 0 0 16px;padding:0;color:var(--text-dim);">
+              <li>"60-second duels"</li>
+              <li>"Climb the weekly ranks"</li>
+              <li>"Crunch time at 0:10"</li>
+            </ul>
+            ⚠️ "Download now" é PROIBIDO (Apple rejeita).
+          </div>
+        </div>
+
+        <div class="card blocked">
+          <div class="card-header"><div class="card-title">ÍCONE — Foreground separado</div><span class="card-status blocked">EXTRA</span></div>
+          <div class="card-body">
+            Wildlife pede o ícone também em 2 imagens extras: <strong>foreground sem background</strong> + <strong>background sólido</strong>. Hoje temos só o composto final.
+            <br><br>É pra Android adaptive icon. Tecnicamente o app funciona sem (o nosso APK assinado já tá rodando), mas pra packaging "by the book" faltaria.
+          </div>
+        </div>
+
+        <div class="card blocked">
+          <div class="card-header"><div class="card-title">ENDCARD — Tem "DOWNLOAD NOW"</div><span class="card-status blocked">CUIDADO</span></div>
+          <div class="card-body">
+            Packaging deck Wildlife diz: <strong>"Avoid directly saying 'Download now' (Apple can reject)"</strong>.
+            <br><br>OK no nosso caso porque o endcard é só pro UA video do Marketing (não vai direto pra App Store). Mas se você reusar a imagem como screenshot da loja, Apple rejeita.
+          </div>
+        </div>
+
+        <div class="card done">
+          <div class="card-header"><div class="card-title">RESTANTE — TODO conforme</div><span class="card-status done">OK</span></div>
+          <div class="card-body">
+            ✓ Ícone 1024 sem alpha (Apple)<br>
+            ✓ Ícone 512 (Google)<br>
+            ✓ Feature graphic 1024×500<br>
+            ✓ Sem texto/logo pequeno no ícone<br>
+            ✓ Sem UI elements iOS/Android no ícone<br>
+            ✓ Brand consistency (voxel + cores do jogo)<br>
+            ✓ Showcase actual gameplay nos screenshots<br>
+            ✓ 3 screenshots primários (lobby/gameplay/victory)
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <section class="zone">
+      <div class="zone-header">
         <h2 class="zone-title">🤝 REDE DE APOIO (DM funciona melhor que #support)</h2>
         <span class="zone-sub">descoberta de hoje: canal oficial sem suporte → DMs resolvem</span>
       </div>
