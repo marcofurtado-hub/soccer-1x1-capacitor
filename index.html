@@ -41,9 +41,10 @@
     #battle-bar .bb-score.right-num{right:54px;}
     #battle-bar .bb-score.pop{animation:scorePop 0.55s cubic-bezier(0.34,1.56,0.64,1);}
     @keyframes scorePop{0%{transform:translateY(-50%) scale(1);}35%{transform:translateY(-50%) scale(1.55);text-shadow:0 0 24px rgba(255,255,255,0.9),0 2px 4px rgba(0,0,0,0.85);}100%{transform:translateY(-50%) scale(1);}}
-    /* Real soccer-ball icon: white sphere with black pentagons (inline SVG via data URL).
-       Replaces the previous radial gradient + emoji which looked like a generic disc. */
-    #battle-bar .bb-icon{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:46px;height:46px;font-size:0;background-color:#fff;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><radialGradient id='sh' cx='50%25' cy='40%25' r='55%25'><stop offset='0%25' stop-color='%23ffffff' stop-opacity='0.55'/><stop offset='65%25' stop-color='%23ffffff' stop-opacity='0'/><stop offset='100%25' stop-color='%23000000' stop-opacity='0.28'/></radialGradient></defs><circle cx='50' cy='50' r='48' fill='%23ffffff'/><polygon points='50,32 60,40 56,53 44,53 40,40' fill='%23111111'/><polygon points='24,46 33,40 40,46 36,56 26,56' fill='%23111111'/><polygon points='76,46 67,40 60,46 64,56 74,56' fill='%23111111'/><polygon points='34,72 41,66 50,68 50,78 38,80' fill='%23111111'/><polygon points='66,72 59,66 50,68 50,78 62,80' fill='%23111111'/><path d='M50 32 L60 40 M50 32 L40 40 M40 40 L33 40 M60 40 L67 40 M44 53 L41 66 M56 53 L59 66 M50 68 L50 78' stroke='%23111111' stroke-width='1.6' fill='none' stroke-linecap='round'/><circle cx='50' cy='50' r='48' fill='url(%23sh)'/><circle cx='50' cy='50' r='48' fill='none' stroke='%230a0a0a' stroke-width='3'/></svg>");background-size:100% 100%;background-repeat:no-repeat;border-radius:50%;box-shadow:0 0 14px rgba(255,255,255,0.6),0 2px 6px rgba(0,0,0,0.55);z-index:5;transition:left 0.45s cubic-bezier(0.25,0.8,0.25,1);}
+    /* Soccer-ball icon for the centre of the battle bar: emoji ⚽ on a clean
+       white disc with a black border. The system font's ⚽ glyph already
+       reads as a real ball — no need for a custom SVG that looks busy at 46px. */
+    #battle-bar .bb-icon{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:46px;height:46px;display:flex;align-items:center;justify-content:center;font-size:30px;line-height:1;background:#fff;border:3px solid #0a0a0a;border-radius:50%;box-shadow:0 0 14px rgba(255,255,255,0.6),0 2px 6px rgba(0,0,0,0.55);z-index:5;transition:left 0.45s cubic-bezier(0.25,0.8,0.25,1);}
 
     #title{position:absolute;top:60px;left:50%;transform:translateX(-50%);font-size:11px;letter-spacing:3px;color:#ffefd9;text-shadow:0 2px 0 #000;background:rgba(0,0,0,0.55);padding:4px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.14);white-space:nowrap;}
 
@@ -124,13 +125,20 @@
        re-enables pointer-events:auto. The .lobby-stage is intentionally
        left as pointer-events:none so the empty hero area passes touches
        straight to Three.js. */
-    /* Lobby background — the image URL is injected at runtime by
-       src/meta/index.js (Vite-hashed import). soccer.ts sets the renderer
-       clearAlpha to 0 in MENU mode so the voxel hero renders on top. */
-    #lobby{justify-content:flex-start;padding:14px 14px 14px;background:#0c1d3a center/cover no-repeat;pointer-events:none;}
-    /* Vignette overlay — keeps focus on the character/PLAY button without
-       hiding the artwork details. Lights highlights kept as a subtle bloom. */
-    #lobby::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 8% 22%,rgba(255,255,240,0.08) 0%,transparent 24%),radial-gradient(circle at 92% 22%,rgba(255,255,240,0.08) 0%,transparent 24%),radial-gradient(ellipse at center,transparent 50%,rgba(0,0,0,0.55) 100%);}
+    /* #lobby itself stays transparent — the BG image is applied to body.lobby-bg
+       via meta/index.js (so it sits BEHIND the canvas, letting the 3D voxel
+       character render on top of the image). */
+    #lobby{justify-content:flex-start;padding:14px 14px 14px;background:transparent;pointer-events:none;}
+    /* Vignette + stadium-light bloom on top of the canvas */
+    #lobby::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 8% 22%,rgba(255,255,240,0.08) 0%,transparent 24%),radial-gradient(circle at 92% 22%,rgba(255,255,240,0.08) 0%,transparent 24%),radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,0.5) 100%);}
+    /* Body BG image (Vite URL applied via JS). Only visible while the canvas
+       is transparent (i.e. while in MENU state). During matches the canvas
+       paints over it with the dark-green clear color. */
+    body.lobby-bg{background-size:cover;background-position:center;background-repeat:no-repeat;}
+    /* While a full-screen overlay is up (matchmaking, leaderboard, settings,
+       endcard…) hide the 3D canvas so the lobby voxel character doesn't
+       bleed through the translucent backdrop. */
+    body.in-overlay canvas#game-canvas{opacity:0;}
     #lobby > *{position:relative;z-index:1;pointer-events:auto;}
     #lobby .lobby-stage{pointer-events:none;}
 
@@ -279,23 +287,18 @@
     #ads-overlay .ad-actions.show{display:block;}
 
   </style>
-  <script type="module" crossorigin src="./assets/index-DdRT0Vvz.js"></script>
+  <script type="module" crossorigin src="./assets/index-C1MrhyRh.js"></script>
   <link rel="stylesheet" crossorigin href="./assets/index-CCCQgEFz.css">
 </head>
 <body>
-  <!-- Loading overlay — Capacitor template's pre-game loader (shown during OTA + init) -->
+  <!-- Loading overlay — Capacitor template's pre-game loader (shown during OTA + init).
+       The SVG hex logo + "Loading" h1 were removed because they appeared briefly
+       before the splash art background loaded, producing a flash of two different
+       loader looks. The splash art itself is the only thing the player should see. -->
   <div id="loader" class="loader">
     <div class="loader__particles" id="particles"></div>
     <div class="loader__content">
-      <div class="loader__logo">
-        <svg class="loader__icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M32 4L58 18V46L32 60L6 46V18L32 4Z" stroke="currentColor" stroke-width="2"/>
-          <path d="M32 4L58 18L32 32L6 18L32 4Z" fill="currentColor" opacity="0.15"/>
-          <path d="M32 32V60L6 46V18L32 32Z" fill="currentColor" opacity="0.08"/>
-          <circle cx="32" cy="28" r="6" fill="currentColor" opacity="0.6"/>
-        </svg>
-      </div>
-      <h1 class="loader__title" id="loader-title">Loading</h1>
+      <h1 class="loader__title" id="loader-title" style="display:none"></h1>
       <div class="loader__progress">
         <div class="loader__bar">
           <div class="loader__bar-fill" id="progress-bar"></div>
@@ -345,7 +348,7 @@
       <span class="bb-score left-num">0</span>
       <span class="bb-score right-num">0</span>
       <span class="bb-side-label right">RIVAL</span>
-      <div class="bb-icon"></div>
+      <div class="bb-icon">⚽</div>
     </div>
     <div id="title">1 MINUTE · MOST GOALS WINS</div>
     <div id="match-timer">2:00</div>
