@@ -124,9 +124,13 @@
        re-enables pointer-events:auto. The .lobby-stage is intentionally
        left as pointer-events:none so the empty hero area passes touches
        straight to Three.js. */
-    #lobby{justify-content:flex-start;padding:14px 14px 14px;background:transparent;pointer-events:none;}
-    /* Stadium lights left/right + vignette overlay (decorative, sits on top of canvas) */
-    #lobby::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 8% 25%,rgba(255,255,240,0.07) 0%,transparent 22%),radial-gradient(circle at 92% 25%,rgba(255,255,240,0.07) 0%,transparent 22%),radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,0.45) 100%);}
+    /* Lobby background — the image URL is injected at runtime by
+       src/meta/index.js (Vite-hashed import). soccer.ts sets the renderer
+       clearAlpha to 0 in MENU mode so the voxel hero renders on top. */
+    #lobby{justify-content:flex-start;padding:14px 14px 14px;background:#0c1d3a center/cover no-repeat;pointer-events:none;}
+    /* Vignette overlay — keeps focus on the character/PLAY button without
+       hiding the artwork details. Lights highlights kept as a subtle bloom. */
+    #lobby::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 8% 22%,rgba(255,255,240,0.08) 0%,transparent 24%),radial-gradient(circle at 92% 22%,rgba(255,255,240,0.08) 0%,transparent 24%),radial-gradient(ellipse at center,transparent 50%,rgba(0,0,0,0.55) 100%);}
     #lobby > *{position:relative;z-index:1;pointer-events:auto;}
     #lobby .lobby-stage{pointer-events:none;}
 
@@ -275,7 +279,7 @@
     #ads-overlay .ad-actions.show{display:block;}
 
   </style>
-  <script type="module" crossorigin src="./assets/index-CKpms7UT.js"></script>
+  <script type="module" crossorigin src="./assets/index-DdRT0Vvz.js"></script>
   <link rel="stylesheet" crossorigin href="./assets/index-CCCQgEFz.css">
 </head>
 <body>
