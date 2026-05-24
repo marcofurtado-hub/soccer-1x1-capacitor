@@ -99,9 +99,11 @@
     #match-timer{position:absolute;top:64px;left:50%;transform:translateX(-50%);font-family:Impact,'Arial Black',sans-serif;font-size:36px;font-weight:900;letter-spacing:3px;color:#fff;text-shadow:0 3px 0 #000,0 0 14px rgba(0,0,0,0.7);background:rgba(0,0,0,0.55);padding:4px 18px;border-radius:12px;border:1px solid rgba(255,255,255,0.18);pointer-events:none;line-height:1.1;}
     #match-timer.danger{color:#ff3030;background:rgba(60,0,0,0.7);border-color:rgba(255,80,80,0.7);text-shadow:0 3px 0 #4a0000,0 0 24px rgba(255,48,48,0.95);box-shadow:0 0 30px rgba(255,48,48,0.7);animation:timerCrunch 0.45s ease-in-out infinite;}
     /* Surrender button — small white flag to the right of the match timer.
-       Same vertical position; visibility is controlled by setMatchHudVisible. */
-    #match-surrender{position:absolute;top:64px;left:calc(50% + 90px);font-size:24px;line-height:1;width:42px;height:42px;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.55);border:1px solid rgba(255,255,255,0.25);border-radius:12px;color:#fff;cursor:pointer;padding:0;transition:transform 0.15s ease,background 0.15s ease;-webkit-tap-highlight-color:transparent;}
-    #match-surrender:hover,#match-surrender:active{background:rgba(40,40,40,0.85);transform:scale(1.08);}
+       Centered horizontally with the timer (left:50% + translateX(-50%)) and
+       then shifted right by 90px so it sits beside the timer instead of
+       hugging the wide-viewport edge. Visibility controlled by setMatchHudVisible. */
+    #match-surrender{position:absolute;top:64px;left:50%;transform:translateX(calc(-50% + 90px));font-size:24px;line-height:1;width:42px;height:42px;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.55);border:1px solid rgba(255,255,255,0.25);border-radius:12px;color:#fff;cursor:pointer;padding:0;transition:background 0.15s ease;-webkit-tap-highlight-color:transparent;}
+    #match-surrender:hover,#match-surrender:active{background:rgba(40,40,40,0.85);}
     @keyframes timerCrunch{0%,100%{transform:translateX(-50%) scale(1);}50%{transform:translateX(-50%) scale(1.22);}}
 
     /* Crunch-time mood: subtle pulsing red vignette only at the very edges */
