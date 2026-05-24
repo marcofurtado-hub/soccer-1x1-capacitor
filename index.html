@@ -18,7 +18,11 @@
       width:min(100vw, calc(100vh * 9 / 16));
       height:min(100vh, calc(100vw * 16 / 9));
     }
-    canvas#game-canvas{display:block;touch-action:none;cursor:crosshair;background:#2e6a26;}
+    /* Canvas background is transparent — Three.js renderer paints the dark-green
+       clear color during matches (alpha 1) and clears to transparent in MENU
+       (alpha 0) so body.lobby-bg shows through. CSS bg used to be #2e6a26
+       which broke the menu BG image entirely. */
+    canvas#game-canvas{display:block;touch-action:none;cursor:crosshair;background:transparent;}
     @media (hover:none){canvas#game-canvas{cursor:default;}}
     #hud{pointer-events:none;z-index:10;}
 
