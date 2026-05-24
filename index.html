@@ -41,7 +41,9 @@
     #battle-bar .bb-score.right-num{right:54px;}
     #battle-bar .bb-score.pop{animation:scorePop 0.55s cubic-bezier(0.34,1.56,0.64,1);}
     @keyframes scorePop{0%{transform:translateY(-50%) scale(1);}35%{transform:translateY(-50%) scale(1.55);text-shadow:0 0 24px rgba(255,255,255,0.9),0 2px 4px rgba(0,0,0,0.85);}100%{transform:translateY(-50%) scale(1);}}
-    #battle-bar .bb-icon{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:42px;height:42px;display:flex;align-items:center;justify-content:center;font-size:24px;background:radial-gradient(circle,#fff 30%,#bbb 100%);border:3px solid #0a0a0a;border-radius:50%;box-shadow:0 0 14px rgba(255,255,255,0.6),0 2px 6px rgba(0,0,0,0.55);z-index:5;transition:left 0.45s cubic-bezier(0.25,0.8,0.25,1);}
+    /* Real soccer-ball icon: white sphere with black pentagons (inline SVG via data URL).
+       Replaces the previous radial gradient + emoji which looked like a generic disc. */
+    #battle-bar .bb-icon{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:46px;height:46px;font-size:0;background-color:#fff;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><radialGradient id='sh' cx='50%25' cy='40%25' r='55%25'><stop offset='0%25' stop-color='%23ffffff' stop-opacity='0.55'/><stop offset='65%25' stop-color='%23ffffff' stop-opacity='0'/><stop offset='100%25' stop-color='%23000000' stop-opacity='0.28'/></radialGradient></defs><circle cx='50' cy='50' r='48' fill='%23ffffff'/><polygon points='50,32 60,40 56,53 44,53 40,40' fill='%23111111'/><polygon points='24,46 33,40 40,46 36,56 26,56' fill='%23111111'/><polygon points='76,46 67,40 60,46 64,56 74,56' fill='%23111111'/><polygon points='34,72 41,66 50,68 50,78 38,80' fill='%23111111'/><polygon points='66,72 59,66 50,68 50,78 62,80' fill='%23111111'/><path d='M50 32 L60 40 M50 32 L40 40 M40 40 L33 40 M60 40 L67 40 M44 53 L41 66 M56 53 L59 66 M50 68 L50 78' stroke='%23111111' stroke-width='1.6' fill='none' stroke-linecap='round'/><circle cx='50' cy='50' r='48' fill='url(%23sh)'/><circle cx='50' cy='50' r='48' fill='none' stroke='%230a0a0a' stroke-width='3'/></svg>");background-size:100% 100%;background-repeat:no-repeat;border-radius:50%;box-shadow:0 0 14px rgba(255,255,255,0.6),0 2px 6px rgba(0,0,0,0.55);z-index:5;transition:left 0.45s cubic-bezier(0.25,0.8,0.25,1);}
 
     #title{position:absolute;top:60px;left:50%;transform:translateX(-50%);font-size:11px;letter-spacing:3px;color:#ffefd9;text-shadow:0 2px 0 #000;background:rgba(0,0,0,0.55);padding:4px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.14);white-space:nowrap;}
 
@@ -128,13 +130,9 @@
     #lobby > *{position:relative;z-index:1;pointer-events:auto;}
     #lobby .lobby-stage{pointer-events:none;}
 
-    /* Top bar */
-    #lobby .lobby-topbar{display:flex;align-items:flex-start;justify-content:space-between;width:100%;}
-    #lobby .lobby-brand{display:flex;align-items:center;gap:10px;}
-    #lobby .lobby-brand-icon{font-size:34px;filter:drop-shadow(0 3px 6px rgba(0,0,0,0.55));}
-    #lobby .lobby-brand-text{font-family:Impact,'Arial Black',sans-serif;font-size:24px;letter-spacing:1.5px;color:#fff;text-shadow:0 2px 0 #000;line-height:1.05;}
-    #lobby .lobby-brand-text span{display:block;font-size:13px;letter-spacing:4px;color:#cfd9ff;margin-top:2px;font-weight:600;}
-    #lobby .lobby-stats{display:flex;flex-direction:column;gap:8px;align-items:flex-end;}
+    /* Top bar — brand removed; stats now span the full width side-by-side */
+    #lobby .lobby-topbar{display:flex;align-items:flex-start;justify-content:center;width:100%;}
+    #lobby .lobby-stats{display:flex;flex-direction:row;gap:10px;align-items:center;justify-content:center;width:100%;}
     #lobby .lobby-chip{display:flex;align-items:center;gap:7px;padding:7px 13px;border-radius:22px;background:linear-gradient(180deg,#1a2a52 0%,#0f1a35 100%);border:1.5px solid rgba(255,255,255,0.18);box-shadow:0 3px 8px rgba(0,0,0,0.55),inset 0 1px 0 rgba(255,255,255,0.12);min-width:78px;justify-content:center;}
     #lobby .lobby-chip.coin{border-color:rgba(255,210,58,0.5);}
     #lobby .lobby-chip.rank{border-color:rgba(255,210,58,0.5);}
@@ -245,6 +243,13 @@
     .settings-toggle-track::after{content:"";position:absolute;left:2px;top:2px;width:18px;height:18px;border-radius:50%;background:radial-gradient(circle,#fff 30%,#aaa 100%);transition:left 0.2s,background 0.2s;}
     .settings-toggle:checked ~ .settings-toggle-track{background:#3ee580;border-color:#7be8a8;}
     .settings-toggle:checked ~ .settings-toggle-track::after{left:22px;background:radial-gradient(circle,#fff 30%,#ddffdd 100%);}
+    .settings-row-slider{padding-bottom:6px;border-bottom-left-radius:0;border-bottom-right-radius:0;}
+    .settings-slider{-webkit-appearance:none;appearance:none;width:100%;max-width:340px;height:36px;background:linear-gradient(180deg,#0f1a35 0%,#1a2a52 100%);border:1.5px solid rgba(255,255,255,0.18);border-top:none;border-radius:0 0 14px 14px;padding:0 16px;margin-top:-10px;outline:none;cursor:pointer;}
+    .settings-slider::-webkit-slider-runnable-track{height:6px;background:linear-gradient(90deg,#3ee580 0%,#3ee580 var(--pct,50%),rgba(255,255,255,0.18) var(--pct,50%));border-radius:3px;}
+    .settings-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:20px;height:20px;border-radius:50%;background:radial-gradient(circle,#fff 30%,#aaa 100%);border:1.5px solid rgba(255,255,255,0.4);margin-top:-7px;cursor:pointer;box-shadow:0 2px 4px rgba(0,0,0,0.4);}
+    .settings-slider::-moz-range-track{height:6px;background:rgba(255,255,255,0.18);border-radius:3px;}
+    .settings-slider::-moz-range-progress{height:6px;background:#3ee580;border-radius:3px;}
+    .settings-slider::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:radial-gradient(circle,#fff 30%,#aaa 100%);border:1.5px solid rgba(255,255,255,0.4);cursor:pointer;}
     /* Notifications list */
     .notif-list{width:100%;max-width:340px;flex:1;display:flex;flex-direction:column;gap:8px;overflow-y:auto;-webkit-overflow-scrolling:touch;}
     .notif-row{display:flex;gap:10px;padding:12px 14px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-radius:10px;font-family:'Inter',system-ui,sans-serif;}
@@ -270,8 +275,8 @@
     #ads-overlay .ad-actions.show{display:block;}
 
   </style>
-  <script type="module" crossorigin src="./assets/index-J20ID8yJ.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-B6wkDfmj.css">
+  <script type="module" crossorigin src="./assets/index-CKpms7UT.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-CCCQgEFz.css">
 </head>
 <body>
   <!-- Loading overlay — Capacitor template's pre-game loader (shown during OTA + init) -->
@@ -336,9 +341,9 @@
       <span class="bb-score left-num">0</span>
       <span class="bb-score right-num">0</span>
       <span class="bb-side-label right">RIVAL</span>
-      <div class="bb-icon">⚽</div>
+      <div class="bb-icon"></div>
     </div>
-    <div id="title">FIRST TO 10 GOALS</div>
+    <div id="title">1 MINUTE · MOST GOALS WINS</div>
     <div id="match-timer">2:00</div>
     <div id="banner"></div>
     <div id="hint">
@@ -383,12 +388,8 @@
 
   <!-- Phase 3 lobby — arcade voxel game home -->
   <div id="lobby" class="scene-overlay">
-    <!-- Top bar: brand + stat chips -->
+    <!-- Top bar: stat chips only (brand removed — hero character speaks for itself) -->
     <div class="lobby-topbar">
-      <div class="lobby-brand">
-        <div class="lobby-brand-icon">⚽</div>
-        <div class="lobby-brand-text">SOCCER<span>1×1</span></div>
-      </div>
       <div class="lobby-stats">
         <div class="lobby-chip coin">
           <span class="lobby-chip-icon">🪙</span>
@@ -455,8 +456,7 @@
     </div>
 
     <!-- (settings + notif buttons live in .lobby-status-row above the stage) -->
-
-    <div class="lobby-version" id="lobby-version">SOCCER 1×1 · v42</div>
+    <!-- (centered "SOCCER 1×1 · vXX" footer removed — #ver-tag in bottom-right is the only version label now) -->
   </div>
 
   <div id="matchmaking" class="scene-overlay">
@@ -487,6 +487,11 @@
         <input type="checkbox" id="settings-sound" class="settings-toggle" checked />
         <span class="settings-toggle-track"></span>
       </label>
+      <div class="settings-row settings-row-slider">
+        <span class="settings-label">STADIUM AMBIENCE</span>
+        <span class="settings-value" id="settings-bg-volume-pct">50%</span>
+      </div>
+      <input type="range" id="settings-bg-volume" class="settings-slider" min="0" max="100" value="50" />
       <div class="settings-row">
         <span class="settings-label">VERSION</span>
         <span class="settings-value" id="settings-version">—</span>
