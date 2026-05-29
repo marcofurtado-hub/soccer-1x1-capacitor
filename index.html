@@ -282,6 +282,21 @@
     .notif-row.unread .notif-title{color:#ffd23a;}
     .notif-sub{font-size:11px;color:rgba(255,255,255,0.6);line-height:1.4;}
 
+    /* --- Name capture modal (post-first-win) --- */
+    #name-prompt{z-index:80;}
+    #name-prompt .np-card{display:flex;flex-direction:column;align-items:center;gap:14px;padding:30px 26px;background:linear-gradient(180deg,#1a2a52 0%,#0f1a35 100%);border:2px solid rgba(255,210,58,0.55);border-radius:18px;box-shadow:0 0 36px rgba(255,210,58,0.45),0 8px 18px rgba(0,0,0,0.55);max-width:340px;width:88%;text-align:center;}
+    #name-prompt .np-title{font-family:Impact,'Arial Black',sans-serif;font-size:42px;letter-spacing:4px;color:#7be0d8;text-shadow:0 4px 0 #003a36,0 0 22px rgba(123,224,216,0.7);line-height:1;}
+    #name-prompt .np-sub{font-size:13px;letter-spacing:2px;color:rgba(255,255,255,0.78);line-height:1.4;}
+    #name-prompt .np-input{width:100%;padding:14px 16px;font-family:Impact,'Arial Black',sans-serif;font-size:22px;letter-spacing:2px;text-align:center;color:#fff;background:rgba(0,0,0,0.55);border:2px solid rgba(255,210,58,0.55);border-radius:12px;outline:none;text-transform:none;-webkit-appearance:none;appearance:none;}
+    #name-prompt .np-input:focus{border-color:#ffd23a;box-shadow:0 0 12px rgba(255,210,58,0.45);}
+    #name-prompt .np-input::placeholder{color:rgba(255,255,255,0.35);letter-spacing:2px;}
+    #name-prompt .np-error{min-height:14px;font-size:11px;letter-spacing:1.5px;color:#ff7a7a;}
+
+    /* Lobby player-name chip (shown when state.playerName !== null) */
+    #lobby .lobby-name-chip{display:none;align-items:center;gap:6px;padding:6px 12px;margin-top:8px;border-radius:18px;background:linear-gradient(180deg,#1a2a52 0%,#0f1a35 100%);border:1.5px solid rgba(123,224,216,0.55);box-shadow:0 3px 6px rgba(0,0,0,0.45);font-family:Impact,'Arial Black',sans-serif;font-size:12px;letter-spacing:2px;color:#7be0d8;}
+    #lobby .lobby-name-chip.visible{display:inline-flex;}
+    #lobby .lobby-name-chip .name-icon{font-size:14px;line-height:1;}
+
     /* --- Ads (fake rewarded video) --- */
     #ads-overlay .ad-frame{width:min(86vw,calc(86vh * 9 / 16));max-width:340px;aspect-ratio:9/16;background:linear-gradient(135deg,#1a2030 0%,#0a0a1a 100%);border:3px solid #ffd23a;border-radius:18px;box-shadow:0 0 32px rgba(255,210,58,0.4);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center;position:relative;overflow:hidden;}
     #ads-overlay .ad-tv-label{position:absolute;top:10px;left:14px;font-size:10px;letter-spacing:3px;color:rgba(255,210,58,0.85);font-family:'Courier New',monospace;}
@@ -297,7 +312,7 @@
     #ads-overlay .ad-actions.show{display:block;}
 
   </style>
-  <script type="module" crossorigin src="./assets/index-78ZvLcAa.js"></script>
+  <script type="module" crossorigin src="./assets/index-BYL-Jut2.js"></script>
   <link rel="stylesheet" crossorigin href="./assets/index-CCCQgEFz.css">
 </head>
 <body>
@@ -420,6 +435,13 @@
       </div>
     </div>
 
+    <!-- Player name chip — populated by refreshLobby() once the user has
+         saved a name (after their first WIN). Hidden until then. -->
+    <div class="lobby-name-chip" id="lobby-name-chip" aria-hidden="true">
+      <span class="name-icon">⚽</span>
+      <span id="lobby-name-text">PLAYER</span>
+    </div>
+
     <!-- Status row: settings | TEST MODE / next-in pill | notifications -->
     <div class="lobby-status-row">
       <button class="lobby-corner-btn settings" id="lobby-settings" aria-label="Settings">⚙</button>
@@ -537,6 +559,21 @@
     <div class="lb-reset" id="lb-reset">resets in --</div>
     <div class="lb-list" id="lb-list"></div>
     <button class="so-btn so-btn-secondary lb-close" id="lb-back">↩ BACK TO LOBBY</button>
+  </div>
+
+  <!-- Name capture modal — opens AFTER the first ever WIN (and never again
+       once a name is saved). Sits above the endcard z-index so it claims
+       the screen before the placar fades in. -->
+  <div id="name-prompt" class="scene-overlay">
+    <div class="np-card">
+      <div class="np-title">VICTORY!</div>
+      <div class="np-sub">Enter your name for the leaderboard</div>
+      <input type="text" id="name-prompt-input" class="np-input" maxlength="14"
+             autocomplete="off" autocapitalize="words" spellcheck="false"
+             placeholder="Your name" />
+      <div class="np-error" id="name-prompt-error"></div>
+      <button class="so-btn so-btn-primary compact" id="name-prompt-save">SAVE</button>
+    </div>
   </div>
 
   <div id="ads-overlay" class="scene-overlay">
