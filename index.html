@@ -53,6 +53,10 @@
     #title{position:absolute;top:60px;left:50%;transform:translateX(-50%);font-size:11px;letter-spacing:3px;color:#ffefd9;text-shadow:0 2px 0 #000;background:rgba(0,0,0,0.55);padding:4px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.14);white-space:nowrap;}
 
     #banner{position:absolute;left:0;right:0;top:38%;text-align:center;font-size:54px;font-weight:900;letter-spacing:3px;color:#fff;text-shadow:0 4px 0 #000,0 0 14px rgba(255,255,255,0.4);opacity:0;pointer-events:none;}
+    /* Full-screen white pop on every goal — 180ms, additive feel. */
+    #goal-flash{position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(255,255,255,0.95) 0%,rgba(255,255,255,0.55) 55%,rgba(255,255,255,0.25) 100%);opacity:0;pointer-events:none;z-index:60;}
+    #goal-flash.flash{animation:goalFlash 0.18s ease-out;}
+    @keyframes goalFlash{0%{opacity:0.85;}100%{opacity:0;}}
     #banner.show{animation:bannerIn 1.4s ease-out forwards;}
     #banner.danger{color:#ff3a2c;text-shadow:0 4px 0 #4a0000,0 0 18px rgba(255,58,44,0.6);}
     #banner.success{color:#7be0d8;text-shadow:0 4px 0 #003a36,0 0 18px rgba(123,224,216,0.7);}
@@ -315,7 +319,7 @@
     #ads-overlay .ad-actions.show{display:block;}
 
   </style>
-  <script type="module" crossorigin src="./assets/index-SnhAvNdI.js"></script>
+  <script type="module" crossorigin src="./assets/index-CY7RXbhw.js"></script>
   <link rel="stylesheet" crossorigin href="./assets/index-CCCQgEFz.css">
 </head>
 <body>
@@ -383,6 +387,7 @@
     <button id="match-surrender" type="button" aria-label="Desistir da partida">🏳️</button>
     <button id="match-pause" type="button" aria-label="Pausar a partida">⏸</button>
     <div id="banner"></div>
+    <div id="goal-flash"></div>
     <div id="hint">
       <span class="hint-desktop">
         <span class="key">W</span><span class="key">A</span><span class="key">S</span><span class="key">D</span> MOVE · <span class="key">SPACE</span> SPRINT · RELEASE MOVING TO SHOOT
