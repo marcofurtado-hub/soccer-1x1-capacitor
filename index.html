@@ -104,6 +104,9 @@
        hugging the wide-viewport edge. Visibility controlled by setMatchHudVisible. */
     #match-surrender{position:absolute;top:64px;left:50%;transform:translateX(calc(-50% + 90px));font-size:24px;line-height:1;width:42px;height:42px;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.55);border:1px solid rgba(255,255,255,0.25);border-radius:12px;color:#fff;cursor:pointer;padding:0;transition:background 0.15s ease;-webkit-tap-highlight-color:transparent;}
     #match-surrender:hover,#match-surrender:active{background:rgba(40,40,40,0.85);}
+    /* Pause button — mirrors the surrender button on the LEFT of the timer. */
+    #match-pause{position:absolute;top:64px;left:50%;transform:translateX(calc(-50% - 132px));font-size:22px;line-height:1;width:42px;height:42px;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.55);border:1px solid rgba(255,255,255,0.25);border-radius:12px;color:#fff;cursor:pointer;padding:0;transition:background 0.15s ease;-webkit-tap-highlight-color:transparent;}
+    #match-pause:hover,#match-pause:active{background:rgba(40,40,40,0.85);}
     @keyframes timerCrunch{0%,100%{transform:translateX(-50%) scale(1);}50%{transform:translateX(-50%) scale(1.22);}}
 
     /* Crunch-time mood: subtle pulsing red vignette only at the very edges */
@@ -312,7 +315,7 @@
     #ads-overlay .ad-actions.show{display:block;}
 
   </style>
-  <script type="module" crossorigin src="./assets/index-ChEOSyzi.js"></script>
+  <script type="module" crossorigin src="./assets/index-SnhAvNdI.js"></script>
   <link rel="stylesheet" crossorigin href="./assets/index-CCCQgEFz.css">
 </head>
 <body>
@@ -378,6 +381,7 @@
     <div id="title">1 MINUTE · MOST GOALS WINS</div>
     <div id="match-timer">2:00</div>
     <button id="match-surrender" type="button" aria-label="Desistir da partida">🏳️</button>
+    <button id="match-pause" type="button" aria-label="Pausar a partida">⏸</button>
     <div id="banner"></div>
     <div id="hint">
       <span class="hint-desktop">
@@ -559,6 +563,23 @@
     <div class="lb-reset" id="lb-reset">resets in --</div>
     <div class="lb-list" id="lb-list"></div>
     <button class="so-btn so-btn-secondary lb-close" id="lb-back">↩ BACK TO LOBBY</button>
+  </div>
+
+  <!-- Pause menu — opened by the ⏸ button during a match. Freezes the sim
+       (soccer.ts setPaused) and offers resume / master volume / surrender. -->
+  <div id="pause-menu" class="scene-overlay">
+    <div class="lb-header">
+      <div class="lb-title">⏸ PAUSE</div>
+    </div>
+    <div class="settings-list">
+      <div class="settings-row settings-row-slider">
+        <span class="settings-label">VOLUME</span>
+        <span class="settings-value" id="pause-volume-pct">60%</span>
+      </div>
+      <input type="range" id="pause-volume" class="settings-slider" min="0" max="100" value="60" />
+      <button class="so-btn so-btn-primary compact" id="pause-resume" style="margin-top:18px;">▶ CONTINUAR</button>
+      <button class="so-btn so-btn-secondary" id="pause-surrender" style="margin-top:6px;">🏳️ DESISTIR</button>
+    </div>
   </div>
 
   <!-- Name capture modal — opens AFTER the first ever WIN (and never again
