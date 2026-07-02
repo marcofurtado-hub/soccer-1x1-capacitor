@@ -84,6 +84,20 @@
     #mobile-hints .zone .icon{font-size:24px;margin-bottom:2px;}
     #mobile-hints .zone.left{left:8%;}
     #mobile-hints .zone.right{right:8%;animation-delay:0.4s;}
+    /* v69 FTUE — guided first-match hints: animated hand + text pill.
+       .step1/.step2/.step3 swap the hand animation (drag / swipe / hold). */
+    #ftue{position:absolute;left:0;right:0;top:54%;display:none;flex-direction:column;align-items:center;gap:12px;pointer-events:none;z-index:40;}
+    #ftue.on{display:flex;}
+    #ftue .ftue-hand{font-size:46px;filter:drop-shadow(0 5px 10px rgba(0,0,0,0.5));}
+    #ftue.step1 .ftue-hand{animation:ftueDrag 1.5s ease-in-out infinite;}
+    #ftue.step2 .ftue-hand{animation:ftueSwipe 1.1s ease-in infinite;}
+    #ftue.step3 .ftue-hand{animation:ftueHold 1.6s ease-in-out infinite;}
+    #ftue .ftue-text{font-weight:900;font-size:15px;letter-spacing:2px;color:#fff;background:rgba(8,18,40,0.85);padding:10px 20px;border-radius:16px;border:2px solid rgba(255,255,255,0.28);text-shadow:0 2px 4px rgba(0,0,0,0.6);animation:ftuePop 0.35s ease;}
+    #ftue.step3 .ftue-text{border-color:#ffb43a;box-shadow:0 0 18px rgba(255,150,40,0.35);}
+    @keyframes ftueDrag{0%,100%{transform:translateX(-36px);}50%{transform:translateX(36px);}}
+    @keyframes ftueSwipe{0%{transform:translateY(20px);opacity:0;}15%{opacity:1;}55%{transform:translateY(-28px);opacity:1;}80%,100%{transform:translateY(-40px);opacity:0;}}
+    @keyframes ftueHold{0%,12%{transform:scale(1);}30%,78%{transform:scale(0.84);}95%,100%{transform:scale(1);}}
+    @keyframes ftuePop{0%{transform:scale(0.6);opacity:0;}100%{transform:scale(1);opacity:1;}}
     @keyframes mobileHintPulse{0%,100%{transform:scale(1);opacity:0.85;}50%{transform:scale(1.08);opacity:1;}}
 
     #sling{position:absolute;inset:0;pointer-events:none;}
@@ -319,7 +333,7 @@
     #ads-overlay .ad-actions.show{display:block;}
 
   </style>
-  <script type="module" crossorigin src="./assets/index-DJ3tUGow.js"></script>
+  <script type="module" crossorigin src="./assets/index-rxq5BHVs.js"></script>
   <link rel="stylesheet" crossorigin href="./assets/index-CCCQgEFz.css">
 </head>
 <body>
@@ -400,6 +414,10 @@
     <div id="mobile-hints">
       <div class="zone left"><div class="icon">👆</div>SWIPE = SPRINT W/ BALL</div>
       <div class="zone right"><div class="icon">⚽</div>HOLD+SWIPE = SHOOT</div>
+    </div>
+    <div id="ftue">
+      <div class="ftue-hand">👆</div>
+      <div class="ftue-text">DRAG TO MOVE</div>
     </div>
     <div id="joystick">
       <div id="joystick-base"></div>
