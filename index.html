@@ -84,8 +84,17 @@
     #mobile-hints .zone .icon{font-size:24px;margin-bottom:2px;}
     #mobile-hints .zone.left{left:8%;}
     #mobile-hints .zone.right{right:8%;animation-delay:0.4s;}
+    /* v70 FTUE — coach speech bubble (training narrative, typing effect). */
+    #coach-bubble{position:absolute;top:23%;left:50%;transform:translateX(-50%) scale(0.9);opacity:0;width:min(80%,340px);display:flex;gap:10px;align-items:center;background:rgba(8,18,40,0.92);border:2px solid #ffd23a;border-radius:16px;padding:12px 14px 10px;pointer-events:none;z-index:41;transition:opacity .25s,transform .25s;box-shadow:0 6px 22px rgba(0,0,0,0.45);}
+    #coach-bubble.show{opacity:1;transform:translateX(-50%) scale(1);}
+    #coach-bubble .avatar{flex:0 0 auto;width:44px;height:44px;border-radius:50%;background:linear-gradient(180deg,#3c6b46,#24422c);display:flex;align-items:center;justify-content:center;font-size:24px;border:2px solid rgba(255,255,255,0.35);}
+    #coach-bubble .who{position:absolute;top:-9px;left:62px;background:#ffd23a;color:#1a2a4a;font-size:9px;font-weight:900;letter-spacing:1.5px;padding:2px 8px;border-radius:8px;}
+    #coach-bubble .say{font-size:12.5px;font-weight:700;color:#fff;line-height:1.45;letter-spacing:0.3px;min-height:2.3em;}
     /* v69 FTUE — guided first-match hints: animated hand + text pill.
-       .step1/.step2/.step3 swap the hand animation (drag / swipe / hold). */
+       .step1/.step2/.step3 swap the hand animation (drag / swipe / hold).
+       .handonly (training mode): the coach bubble carries the words, so the
+       pill is hidden and only the animated hand shows. */
+    #ftue.handonly .ftue-text{display:none;}
     #ftue{position:absolute;left:0;right:0;top:54%;display:none;flex-direction:column;align-items:center;gap:12px;pointer-events:none;z-index:40;}
     #ftue.on{display:flex;}
     #ftue .ftue-hand{font-size:46px;filter:drop-shadow(0 5px 10px rgba(0,0,0,0.5));}
@@ -333,7 +342,7 @@
     #ads-overlay .ad-actions.show{display:block;}
 
   </style>
-  <script type="module" crossorigin src="./assets/index-rxq5BHVs.js"></script>
+  <script type="module" crossorigin src="./assets/index-wxdKnhYN.js"></script>
   <link rel="stylesheet" crossorigin href="./assets/index-CCCQgEFz.css">
 </head>
 <body>
@@ -418,6 +427,11 @@
     <div id="ftue">
       <div class="ftue-hand">👆</div>
       <div class="ftue-text">DRAG TO MOVE</div>
+    </div>
+    <div id="coach-bubble">
+      <div class="avatar">🧢</div>
+      <div class="who">COACH</div>
+      <div class="say"></div>
     </div>
     <div id="joystick">
       <div id="joystick-base"></div>
