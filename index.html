@@ -85,7 +85,8 @@
     #mobile-hints .zone.left{left:8%;}
     #mobile-hints .zone.right{right:8%;animation-delay:0.4s;}
     /* v70 FTUE — coach speech bubble (training narrative, typing effect). */
-    #coach-bubble{position:absolute;top:23%;left:50%;transform:translateX(-50%) scale(0.9);opacity:0;width:min(80%,340px);display:flex;gap:10px;align-items:center;background:rgba(8,18,40,0.92);border:2px solid #ffd23a;border-radius:16px;padding:12px 14px 10px;pointer-events:none;z-index:41;transition:opacity .25s,transform .25s;box-shadow:0 6px 22px rgba(0,0,0,0.45);}
+    /* Bottom band (over the crowd, NEVER over the pitch/enemy goal). */
+    #coach-bubble{position:absolute;bottom:calc(6% + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%) scale(0.9);opacity:0;width:min(84%,360px);display:flex;gap:10px;align-items:center;background:rgba(8,18,40,0.92);border:2px solid #ffd23a;border-radius:16px;padding:12px 14px 10px;pointer-events:none;z-index:41;transition:opacity .25s,transform .25s;box-shadow:0 6px 22px rgba(0,0,0,0.45);}
     #coach-bubble.show{opacity:1;transform:translateX(-50%) scale(1);}
     #coach-bubble .avatar{flex:0 0 auto;width:44px;height:44px;border-radius:50%;background:linear-gradient(180deg,#3c6b46,#24422c);display:flex;align-items:center;justify-content:center;font-size:24px;border:2px solid rgba(255,255,255,0.35);}
     #coach-bubble .who{position:absolute;top:-9px;left:62px;background:#ffd23a;color:#1a2a4a;font-size:9px;font-weight:900;letter-spacing:1.5px;padding:2px 8px;border-radius:8px;}
@@ -342,7 +343,7 @@
     #ads-overlay .ad-actions.show{display:block;}
 
   </style>
-  <script type="module" crossorigin src="./assets/index-wxdKnhYN.js"></script>
+  <script type="module" crossorigin src="./assets/index-CGfelOsW.js"></script>
   <link rel="stylesheet" crossorigin href="./assets/index-CCCQgEFz.css">
 </head>
 <body>
